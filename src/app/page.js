@@ -7,7 +7,7 @@ import CommandPreview from '@/components/CommandPreview';
 export default function Home() {
   const [config, setConfig] = useState({
     emails: 'jhomar@empresa.pe,jhomar.astuyauri@gmail.com',
-    repos: 'Fashion-Extension,Keepers-App,SneakerMatch',
+    repos: 'https://github.com/asther0/Fashion-Extension,https://github.com/asther0/Keepers-App',
     mirrorName: 'work-mirror-2025',
     githubUsername: 'asther0',
     githubToken: '',

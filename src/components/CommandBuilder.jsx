@@ -33,17 +33,17 @@ export default function CommandBuilder({ config, updateConfig }) {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                Nombres de repositorios (separados por coma)
+                URLs de repositorios (separados por coma)
               </label>
               <input
                 type="text"
                 value={config.repos}
                 onChange={(e) => updateConfig('repos', e.target.value)}
-                placeholder="proyecto-uno,proyecto-dos"
+                placeholder="https://github.com/usuario/repo1,https://github.com/usuario/repo2"
                 className="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none"
               />
               <p className="mt-1 text-xs text-gray-500">
-                Deben ser carpetas en tu directorio actual
+                URLs completas de los repositorios de GitHub
               </p>
             </div>
 
