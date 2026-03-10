@@ -5,6 +5,7 @@ import HeroSection from '@/components/HeroSection';
 import ContributionGraph from '@/components/ContributionGraph';
 import CommandBuilder from '@/components/CommandBuilder';
 import CommandPreview from '@/components/CommandPreview';
+import GitHubStars from '@/components/GitHubStars';
 
 export default function Home() {
   const [config, setConfig] = useState({
@@ -30,14 +31,7 @@ export default function Home() {
           <h1 className="text-xl font-bold text-slate-900">
             Mirror Commits
           </h1>
-          <a
-            href="https://github.com/asther0/mirror-commits-web"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-sm text-slate-500 hover:text-primary transition-colors"
-          >
-            GitHub
-          </a>
+          <GitHubStars repo="asther0/mirror-commits-web" />
         </div>
       </header>
 

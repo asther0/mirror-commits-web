@@ -152,15 +152,11 @@ To use auto-push, you need a GitHub Personal Access Token:
 
 ## Inspiration
 
-Inspired by [shōmei](https://github.com/petarran/shomei) by [@PetarRan](https://github.com/PetarRan).
+Inspired by [@PetarRan](https://github.com/PetarRan).
 
 ## License
 
 MIT
-
-## Author
-
-**Jhomar Astuyauri** ([@asther0](https://github.com/asther0))
 
 ---
 
