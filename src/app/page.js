@@ -10,7 +10,7 @@ import GitHubStars from '@/components/GitHubStars';
 export default function Home() {
   const [config, setConfig] = useState({
     emails: ['jhomar@empresa.pe'],
-    repos: ['https://github.com/asther0/Fashion-Extension', 'https://github.com/asther0/Keepers-App'],
+    repos: ['https://github.com/asther0/mirror-commits-web'],
     mirrorName: 'work-mirror-2025',
     githubUsername: 'asther0',
     githubToken: '',
