@@ -105,22 +105,22 @@ export default function CommandPreview({ config }) {
 
       const prompt = `Analiza este script bash que voy a ejecutar en mi computadora. Necesito que me ayudes a verificar su seguridad antes de ejecutarlo.
 
-El script se llama "mirror.sh" y su proposito es crear un repositorio espejo en GitHub que refleje las fechas de mis commits de trabajo (sin codigo, solo timestamps) para actualizar mi grafico de contribuciones.
+El script se llama "mirror.sh" y su propósito es crear un repositorio espejo en GitHub que refleje las fechas de mis commits de trabajo (sin código, solo timestamps) para actualizar mi gráfico de contribuciones.
 
-Revisa especificamente:
+Revisa específicamente:
 1. Hay comandos peligrosos o destructivos?
-2. Se expone informacion sensible o codigo fuente?
+2. Se expone información sensible o código fuente?
 3. Los permisos y operaciones con git son seguras?
 4. Hay riesgos de seguridad al usar el GitHub token?
 5. El script hace lo que dice que hace?
 
-Aqui esta el contenido completo del script:
+Aquí está el contenido completo del script:
 
 \`\`\`bash
 ${scriptContent}
 \`\`\`
 
-Dame un analisis detallado de seguridad y dime si es seguro ejecutarlo.`;
+Dame un análisis detallado de seguridad y dime si es seguro ejecutarlo.`;
 
       await navigator.clipboard.writeText(prompt);
       setCopiedForAI(true);
@@ -188,7 +188,7 @@ Dame un analisis detallado de seguridad y dime si es seguro ejecutarlo.`;
       <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl px-4 py-3">
         <p className="text-xs text-amber-700">
           <span className="font-semibold">Seguridad:</span>{' '}
-          Todo se ejecuta localmente. No se envia codigo, mensajes ni datos a ningun servidor. Solo se usan las fechas.
+          Todo se ejecuta localmente. No se envía código, mensajes ni datos a ningún servidor. Solo se usan las fechas.
         </p>
       </div>
     </div>

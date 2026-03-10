@@ -111,7 +111,7 @@ export default function CommandBuilder({ config, updateConfig }) {
             />
             <div>
               <span className="font-medium text-slate-800">Auto-push a GitHub</span>
-              <span className="text-slate-400 block text-xs">Sube automaticamente el repo mirror a GitHub</span>
+              <span className="text-slate-400 block text-xs">Sube automáticamente el repo mirror a GitHub</span>
             </div>
           </label>
 
@@ -137,7 +137,7 @@ export default function CommandBuilder({ config, updateConfig }) {
                   className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
                 />
                 <p className="mt-1 text-xs text-amber-600">
-                  No se envia a ningun servidor - solo se usa en tu terminal
+                  No se envía a ningún servidor - solo se usa en tu terminal
                 </p>
               </div>
 

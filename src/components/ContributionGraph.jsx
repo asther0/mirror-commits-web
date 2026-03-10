@@ -89,7 +89,7 @@ export default function ContributionGraph() {
           <GraphGrid grid={BEFORE_GRID} variant="before" />
         </div>
         <p className="text-xs text-slate-400 mt-3">
-          Casi vacio... pero si trabajaste todo el anio
+          Casi vacío... pero si trabajaste todo el año
         </p>
       </div>
 

@@ -45,7 +45,7 @@ export default function Home() {
             El problema que todos conocemos
           </h2>
           <p className="text-slate-500 max-w-2xl mx-auto">
-            Programas todo el anio en el trabajo, pero tu GitHub personal aparece vacio
+            Programas todo el año en el trabajo, pero tu GitHub personal aparece vacío
             porque usas un email diferente para los commits laborales.
           </p>
         </div>
@@ -80,7 +80,7 @@ export default function Home() {
             </div>
             <h3 className="font-semibold text-slate-900 mb-2">Proceso</h3>
             <p className="text-sm text-slate-500">
-              Extrae solo las fechas de los commits, sin codigo ni mensajes
+              Extrae solo las fechas de los commits, sin código ni mensajes
             </p>
           </div>
 

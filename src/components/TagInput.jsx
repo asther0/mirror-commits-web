@@ -13,7 +13,7 @@ const VALIDATORS = {
   },
   text: {
     regex: /^.+$/,
-    errorMessage: 'Campo no puede estar vacio',
+    errorMessage: 'Campo no puede estar vacío',
   },
 };
 
