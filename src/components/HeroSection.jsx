@@ -44,7 +44,7 @@ export default function HeroSection() {
           {' '}en tu GitHub
         </h2>
         <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto animate-fade-in-up animation-delay-100 text-balance">
-          Si usas un email diferente en el trabajo, tu gráfico de contribuciones no lo refleja. Esto lo soluciona.
+          Si usas otro email en el trabajo, tu contribution graph no lo refleja. Esto lo soluciona.
         </p>
 
         <button
