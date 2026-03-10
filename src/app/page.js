@@ -159,15 +159,14 @@ export default function Home() {
             >
               shomei
             </a>
-            {' '}&middot;{' '}
-            Interfaz web por{' '}
+            {' '}por{' '}
             <a
-              href="https://github.com/asther0"
+              href="https://github.com/PetarRan"
               target="_blank"
               rel="noopener noreferrer"
               className="text-primary hover:underline"
             >
-              Jhomar
+              @PetarRan
             </a>
           </p>
         </div>
