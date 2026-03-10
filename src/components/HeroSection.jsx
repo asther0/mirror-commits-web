@@ -45,7 +45,7 @@ export default function HeroSection() {
         </h2>
         <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto animate-fade-in-up animation-delay-100 text-balance">
           Programas todo el año pero tu contribution graph aparece vacío
-          porque los commits van con otro email. Esto lo soluciona.
+          porque los commits van con otro email.
         </p>
 
         <button
