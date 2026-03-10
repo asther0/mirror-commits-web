@@ -132,6 +132,17 @@ Dame un análisis detallado de seguridad y dime si es seguro ejecutarlo.`;
 
   return (
     <div className="space-y-4">
+      {/* Step 4 header */}
+      <div className="flex items-center gap-3 mb-2">
+        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white text-sm font-bold shrink-0">
+          4
+        </span>
+        <div>
+          <h3 className="font-semibold text-slate-900">Descarga y ejecuta</h3>
+          <p className="text-xs text-slate-400">Copia el comando y corre mirror.sh en tu terminal</p>
+        </div>
+      </div>
+
       {/* Generated Command */}
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
         <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
