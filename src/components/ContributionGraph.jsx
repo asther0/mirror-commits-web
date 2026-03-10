@@ -1,25 +1,33 @@
 'use client';
 
-import { useMemo } from 'react';
-
 /**
- * Generates a grid of contribution levels for the GitHub-style graph mockup.
- * Each cell is a value 0-4 representing contribution intensity.
+ * Simple seeded PRNG (mulberry32) to ensure server and client
+ * produce identical grids and avoid hydration mismatches.
  */
-function generateGrid(fillPercentage) {
+function seededRandom(seed) {
+  let t = (seed + 0x6d2b79f5) | 0;
+  t = Math.imul(t ^ (t >>> 15), t | 1);
+  t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+  return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+}
+
+function generateGrid(fillPercentage, baseSeed) {
   const weeks = 20;
   const days = 7;
   const grid = [];
+  let seed = baseSeed;
 
   for (let week = 0; week < weeks; week++) {
     const weekData = [];
     for (let day = 0; day < days; day++) {
-      if (Math.random() < fillPercentage) {
-        // Weighted towards lower levels for realism
-        const randomLevel = Math.random();
-        if (randomLevel < 0.4) weekData.push(1);
-        else if (randomLevel < 0.7) weekData.push(2);
-        else if (randomLevel < 0.9) weekData.push(3);
+      seed++;
+      const rand = seededRandom(seed);
+      if (rand < fillPercentage) {
+        seed++;
+        const levelRand = seededRandom(seed);
+        if (levelRand < 0.4) weekData.push(1);
+        else if (levelRand < 0.7) weekData.push(2);
+        else if (levelRand < 0.9) weekData.push(3);
         else weekData.push(4);
       } else {
         weekData.push(0);
@@ -29,6 +37,9 @@ function generateGrid(fillPercentage) {
   }
   return grid;
 }
+
+const BEFORE_GRID = generateGrid(0.08, 12345);
+const AFTER_GRID = generateGrid(0.65, 67890);
 
 const LEVEL_COLORS = {
   before: [
@@ -67,9 +78,6 @@ function GraphGrid({ grid, variant = 'before' }) {
 }
 
 export default function ContributionGraph() {
-  const beforeGrid = useMemo(() => generateGrid(0.08), []);
-  const afterGrid = useMemo(() => generateGrid(0.65), []);
-
   return (
     <div className="grid md:grid-cols-2 gap-8">
       {/* Before */}
@@ -78,7 +86,7 @@ export default function ContributionGraph() {
           Tu GitHub ahora
         </p>
         <div className="flex justify-center overflow-hidden">
-          <GraphGrid grid={beforeGrid} variant="before" />
+          <GraphGrid grid={BEFORE_GRID} variant="before" />
         </div>
         <p className="text-xs text-slate-400 mt-3">
           Casi vacio... pero si trabajaste todo el anio
@@ -91,7 +99,7 @@ export default function ContributionGraph() {
           Tu GitHub despues
         </p>
         <div className="flex justify-center overflow-hidden">
-          <GraphGrid grid={afterGrid} variant="after" />
+          <GraphGrid grid={AFTER_GRID} variant="after" />
         </div>
         <p className="text-xs text-slate-400 mt-3">
           Ahora si refleja tu esfuerzo real
