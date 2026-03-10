@@ -4,29 +4,81 @@ import { useState } from 'react';
 
 export default function CommandPreview({ config }) {
   const [copied, setCopied] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const generateCommand = () => {
-    const parts = ['bash mirror.sh'];
+    const lines = ['bash mirror.sh \\'];
 
-    // Required params
-    parts.push(`--emails "${config.emails}"`);
-    parts.push(`--repos "${config.repos}"`);
+    const emails = Array.isArray(config.emails)
+      ? config.emails
+      : config.emails.split(',').filter(Boolean);
+    const repos = Array.isArray(config.repos)
+      ? config.repos
+      : config.repos.split(',').filter(Boolean);
+
+    // --emails: one per line if multiple
+    if (emails.length === 1) {
+      lines.push(`  --emails "${emails[0]}" \\`);
+    } else if (emails.length > 1) {
+      lines.push(`  --emails "${emails.join(',')}" \\`);
+    }
+
+    // --repos: one per line for readability
+    if (repos.length === 1) {
+      lines.push(`  --repos "${repos[0]}" \\`);
+    } else if (repos.length > 1) {
+      lines.push('  --repos "\\');
+      repos.forEach((repo, index) => {
+        const separator = index < repos.length - 1 ? ',' : '';
+        lines.push(`    ${repo}${separator}`);
+      });
+      lines.push('  " \\');
+    }
+
+    lines.push(`  --name "${config.mirrorName}" \\`);
+
+    if (config.autoPush) {
+      lines.push(`  --username "${config.githubUsername}" \\`);
+      lines.push(`  --token "${config.githubToken}" \\`);
+      lines.push('  --auto-push \\');
+    }
+
+    if (config.private) {
+      lines.push('  --private \\');
+    }
+
+    if (config.dryRun) {
+      lines.push('  --dry-run \\');
+    }
+
+    // Remove trailing backslash from last line
+    const lastIndex = lines.length - 1;
+    lines[lastIndex] = lines[lastIndex].replace(/ \\$/, '');
+
+    return lines.join('\n');
+  };
+
+  /** Flat version for clipboard (single-line friendly) */
+  const generateCopyCommand = () => {
+    const emails = Array.isArray(config.emails)
+      ? config.emails.join(',')
+      : config.emails;
+    const repos = Array.isArray(config.repos)
+      ? config.repos.join(',')
+      : config.repos;
+
+    const parts = ['bash mirror.sh'];
+    parts.push(`--emails "${emails}"`);
+    parts.push(`--repos "${repos}"`);
     parts.push(`--name "${config.mirrorName}"`);
 
-    // Optional params
     if (config.autoPush) {
       parts.push(`--username "${config.githubUsername}"`);
       parts.push(`--token "${config.githubToken}"`);
       parts.push('--auto-push');
     }
-
-    if (config.private) {
-      parts.push('--private');
-    }
-
-    if (config.dryRun) {
-      parts.push('--dry-run');
-    }
+    if (config.private) parts.push('--private');
+    if (config.dryRun) parts.push('--dry-run');
 
     return parts.join(' \\\n  ');
   };
@@ -35,7 +87,7 @@ export default function CommandPreview({ config }) {
 
   const copyToClipboard = async () => {
     try {
-      await navigator.clipboard.writeText(command);
+      await navigator.clipboard.writeText(generateCopyCommand());
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -44,7 +96,6 @@ export default function CommandPreview({ config }) {
   };
 
   const downloadScript = () => {
-    // Download the actual script file
     const link = document.createElement('a');
     link.href = '/scripts/mirror.sh';
     link.download = 'mirror.sh';
@@ -52,103 +103,112 @@ export default function CommandPreview({ config }) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Generated Command */}
-      <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
-        <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-gray-900">
-            Script generado
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+        <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-slate-900">
+            Comando generado
           </h3>
           <button
             onClick={copyToClipboard}
             className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
               copied
-                ? 'bg-blue-600 text-white'
-                : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                ? 'bg-accent text-white'
+                : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
             }`}
           >
-            {copied ? 'Copiado' : 'Copiar'}
+            {copied ? 'Copiado!' : 'Copiar'}
           </button>
         </div>
 
-        <div className="p-4 overflow-x-auto bg-gray-900">
-          <pre className="text-sm text-gray-100 font-mono leading-relaxed">
+        <div className="p-4 bg-slate-900">
+          <pre className="text-sm text-slate-100 font-mono leading-relaxed whitespace-pre-wrap break-all">
             <code>{command}</code>
           </pre>
         </div>
       </div>
 
-      {/* Instructions */}
-      <div className="bg-white border border-gray-200 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-          Cómo ejecutar
-        </h3>
-
-        <ol className="space-y-4 text-sm text-gray-700">
-          <li className="flex gap-3">
-            <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
-              1
-            </span>
-            <div className="flex-1">
-              <p className="font-medium text-gray-900 mb-2">Descarga el script</p>
-              <button
-                onClick={downloadScript}
-                className="inline-flex items-center gap-2 px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-xs font-medium transition-colors"
-              >
-                Descargar mirror.sh
-              </button>
-            </div>
-          </li>
-
-          <li className="flex gap-3">
-            <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
-              2
-            </span>
-            <div className="flex-1">
-              <p className="font-medium text-gray-900 mb-2">Navega a la carpeta de proyectos</p>
-              <code className="block bg-gray-100 border border-gray-200 px-3 py-2 rounded text-xs text-gray-800 font-mono">
-                cd ~/Projects
-              </code>
-            </div>
-          </li>
-
-          <li className="flex gap-3">
-            <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
-              3
-            </span>
-            <div className="flex-1">
-              <p className="font-medium text-gray-900 mb-2">Dale permisos de ejecución</p>
-              <code className="block bg-gray-100 border border-gray-200 px-3 py-2 rounded text-xs text-gray-800 font-mono">
-                chmod +x mirror.sh
-              </code>
-            </div>
-          </li>
-
-          <li className="flex gap-3">
-            <span className="flex-shrink-0 w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">
-              4
-            </span>
-            <div className="flex-1">
-              <p className="font-medium text-gray-900">Ejecuta el comando generado arriba</p>
-              <p className="text-xs text-gray-500 mt-1">
-                Copia y pega el comando en tu terminal
-              </p>
-            </div>
-          </li>
-        </ol>
+      {/* Quick actions */}
+      <div className="flex gap-3">
+        <button
+          onClick={downloadScript}
+          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-medium transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Descargar mirror.sh
+        </button>
+        <button
+          onClick={copyToClipboard}
+          className={`flex-1 inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+            copied
+              ? 'bg-accent text-white'
+              : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200'
+          }`}
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+          {copied ? 'Copiado!' : 'Copiar comando'}
+        </button>
       </div>
 
-      {/* Security Notice */}
-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
-        <h4 className="text-sm font-semibold text-amber-900 mb-2">
-          Nota de seguridad
-        </h4>
-        <ul className="space-y-1 text-xs text-amber-800">
-          <li>• Todo se procesa localmente en tu terminal</li>
-          <li>• No se envía ningún dato a servidores externos</li>
-          <li>• No se expone código, mensajes ni nombres de archivos</li>
-          <li>• Solo se usan las fechas de los commits</li>
-        </ul>
+      {/* Collapsible Instructions */}
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+        <button
+          onClick={() => setShowInstructions(!showInstructions)}
+          className="w-full px-4 py-3 flex items-center justify-between text-sm font-medium text-slate-700 hover:bg-slate-50 transition-colors"
+        >
+          <span>Como ejecutar</span>
+          <svg
+            className={`w-4 h-4 text-slate-400 transition-transform ${showInstructions ? 'rotate-180' : ''}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        {showInstructions && (
+          <div className="px-4 pb-4 border-t border-slate-100">
+            <ol className="space-y-3 mt-3 text-sm text-slate-600">
+              <li className="flex gap-2">
+                <span className="text-primary font-bold">1.</span>
+                <div>
+                  Navega a tu carpeta de proyectos:
+                  <code className="block bg-slate-100 px-2 py-1 rounded text-xs text-slate-800 font-mono mt-1">
+                    cd ~/Projects
+                  </code>
+                </div>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-primary font-bold">2.</span>
+                <div>
+                  Dale permisos de ejecucion:
+                  <code className="block bg-slate-100 px-2 py-1 rounded text-xs text-slate-800 font-mono mt-1">
+                    chmod +x mirror.sh
+                  </code>
+                </div>
+              </li>
+              <li className="flex gap-2">
+                <span className="text-primary font-bold">3.</span>
+                Pega y ejecuta el comando de arriba
+              </li>
+            </ol>
+          </div>
+        )}
+      </div>
+
+      {/* Security Notice - compact */}
+      <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl px-4 py-3">
+        <p className="text-xs text-amber-700">
+          <span className="font-semibold">Seguridad:</span>{' '}
+          Todo se ejecuta localmente. No se envia codigo, mensajes ni datos a ningun servidor. Solo se usan las fechas.
+        </p>
       </div>
     </div>
   );
