@@ -130,86 +130,8 @@ Dame un analisis detallado de seguridad y dime si es seguro ejecutarlo.`;
     }
   };
 
-  const steps = [
-    {
-      number: '1',
-      title: 'Descarga el script',
-      description: 'Descarga mirror.sh en tu carpeta de proyectos',
-    },
-    {
-      number: '2',
-      title: 'Dale permisos',
-      code: 'chmod +x mirror.sh',
-    },
-    {
-      number: '3',
-      title: 'Copia y ejecuta',
-      description: 'Copia el comando generado abajo y ejecutalo en tu terminal',
-    },
-  ];
-
   return (
     <div className="space-y-4">
-      {/* Steps - always visible */}
-      <div className="bg-white border border-slate-200 rounded-xl p-5">
-        <h3 className="text-sm font-semibold text-slate-900 mb-4">
-          Como usar
-        </h3>
-        <div className="flex gap-4">
-          {steps.map((step) => (
-            <div key={step.number} className="flex-1 relative">
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-primary text-white text-xs font-bold shrink-0">
-                  {step.number}
-                </span>
-                <span className="text-sm font-medium text-slate-800">{step.title}</span>
-              </div>
-              {step.description && (
-                <p className="text-xs text-slate-400 ml-7">{step.description}</p>
-              )}
-              {step.code && (
-                <code className="block bg-slate-100 px-2 py-1 rounded text-xs text-slate-700 font-mono ml-7 mt-1">
-                  {step.code}
-                </code>
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Download + Validate with AI */}
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          onClick={downloadScript}
-          className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-semibold transition-colors shadow-sm hover:shadow-md"
-        >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-          Descargar mirror.sh
-        </button>
-
-        <button
-          onClick={copyScriptForAI}
-          className={`inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold transition-all ${
-            copiedForAI
-              ? 'bg-purple-600 text-white shadow-sm'
-              : 'bg-white text-purple-700 hover:bg-purple-50 border border-purple-200 hover:border-purple-300'
-          }`}
-        >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-          </svg>
-          {copiedForAI ? 'Copiado! Pega en tu IA' : 'Validar con tu IA'}
-        </button>
-      </div>
-
-      {/* AI hint */}
-      <p className="text-xs text-slate-400 text-center">
-        &quot;Validar con tu IA&quot; copia el contenido de mirror.sh con un prompt de analisis de seguridad.
-        Pegalo en Claude, ChatGPT o tu IA de preferencia.
-      </p>
-
       {/* Generated Command */}
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
         <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
@@ -233,6 +155,34 @@ Dame un analisis detallado de seguridad y dime si es seguro ejecutarlo.`;
             <code>{command}</code>
           </pre>
         </div>
+      </div>
+
+      {/* Actions */}
+      <div className="grid grid-cols-2 gap-3">
+        <button
+          onClick={downloadScript}
+          className="inline-flex items-center justify-center gap-2 px-4 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-semibold transition-colors shadow-sm hover:shadow-md"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+          </svg>
+          Descargar mirror.sh
+        </button>
+
+        <button
+          onClick={copyScriptForAI}
+          className={`inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-all ${
+            copiedForAI
+              ? 'bg-purple-600 text-white shadow-sm'
+              : 'bg-white text-slate-600 hover:bg-purple-50 hover:text-purple-700 border border-slate-200 hover:border-purple-200'
+          }`}
+          title="Copia mirror.sh + prompt de seguridad para analizar en tu IA favorita"
+        >
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+          {copiedForAI ? 'Copiado! Pegalo en tu IA' : 'Analizar mirror.sh con IA'}
+        </button>
       </div>
 
       {/* Security Notice */}

@@ -99,6 +99,29 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Quick steps */}
+      <section className="max-w-3xl mx-auto px-6 pb-16">
+        <div className="flex items-center gap-4">
+          {[
+            { n: '1', text: 'Configura tus datos abajo' },
+            { n: '2', text: 'Descarga mirror.sh' },
+            { n: '3', text: 'Ejecuta el comando en tu terminal' },
+          ].map((step, i) => (
+            <div key={step.n} className="flex items-center gap-3 flex-1">
+              <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-white text-xs font-bold shrink-0">
+                {step.n}
+              </span>
+              <span className="text-sm text-slate-600">{step.text}</span>
+              {i < 2 && (
+                <svg className="w-4 h-4 text-slate-300 shrink-0 ml-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* Configuration Section - Two Columns */}
       <section id="configurador" className="max-w-7xl mx-auto px-6 pb-16">
         <div className="text-center mb-10">
