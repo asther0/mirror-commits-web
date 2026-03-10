@@ -5,15 +5,15 @@ import TagInput from '@/components/TagInput';
 export default function CommandBuilder({ config, updateConfig }) {
   return (
     <div className="space-y-6">
-      {/* PASO 1: ORIGEN */}
+      {/* PASO 1: DATOS */}
       <div className="bg-white border border-slate-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-6">
           <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm font-bold shrink-0">
             1
           </span>
           <div>
-            <h3 className="font-semibold text-slate-900">De dónde vienen tus commits</h3>
-            <p className="text-xs text-slate-400">Agrega los emails y repos de trabajo que quieres reflejar</p>
+            <h3 className="font-semibold text-slate-900">Tus commits de trabajo</h3>
+            <p className="text-xs text-slate-400">Emails, repos y nombre del mirror</p>
           </div>
         </div>
 
@@ -35,34 +35,6 @@ export default function CommandBuilder({ config, updateConfig }) {
             type="url"
             helpText="URLs completas de los repos de GitHub"
           />
-        </div>
-      </div>
-
-      {/* PASO 2: DESTINO */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6">
-        <div className="flex items-center gap-3 mb-6">
-          <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm font-bold shrink-0">
-            2
-          </span>
-          <div>
-            <h3 className="font-semibold text-slate-900">Dónde se reflejarán</h3>
-            <p className="text-xs text-slate-400">Tu usuario y el nombre del repo mirror en GitHub</p>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">
-              Usuario de GitHub
-            </label>
-            <input
-              type="text"
-              value={config.githubUsername}
-              onChange={(e) => updateConfig('githubUsername', e.target.value)}
-              placeholder="tu-usuario"
-              className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
-            />
-          </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
@@ -76,17 +48,17 @@ export default function CommandBuilder({ config, updateConfig }) {
               className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
             />
             <p className="mt-1 text-xs text-slate-400">
-              Se creará si no existe
+              Se creará en tu máquina si no existe
             </p>
           </div>
         </div>
       </div>
 
-      {/* PASO 3: OPCIONES */}
+      {/* PASO 2: OPCIONES */}
       <div className="bg-white border border-slate-200 rounded-xl p-6">
         <div className="flex items-center gap-3 mb-6">
           <span className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-200 text-slate-600 text-sm font-bold shrink-0">
-            3
+            2
           </span>
           <div>
             <h3 className="font-semibold text-slate-900">Opciones extras</h3>
@@ -110,6 +82,19 @@ export default function CommandBuilder({ config, updateConfig }) {
 
           {config.autoPush && (
             <div className="space-y-3 ml-7 pl-4 border-l-2 border-primary/20">
+              <div>
+                <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                  Usuario de GitHub
+                </label>
+                <input
+                  type="text"
+                  value={config.githubUsername}
+                  onChange={(e) => updateConfig('githubUsername', e.target.value)}
+                  placeholder="tu-usuario"
+                  className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+                />
+              </div>
+
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">
                   Token de GitHub

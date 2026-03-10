@@ -132,11 +132,11 @@ Dame un análisis detallado de seguridad y dime si es seguro ejecutarlo.`;
 
   return (
     <div className="space-y-6">
-      {/* PASO 4: Descarga el script */}
+      {/* PASO 3: Descarga el script */}
       <div>
         <div className="flex items-center gap-3 mb-3">
           <span className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white text-sm font-bold shrink-0">
-            4
+            3
           </span>
           <div>
             <h3 className="font-semibold text-slate-900">Descarga el script</h3>
@@ -171,11 +171,11 @@ Dame un análisis detallado de seguridad y dime si es seguro ejecutarlo.`;
         </div>
       </div>
 
-      {/* PASO 5: Copia y ejecuta el comando */}
+      {/* PASO 4: Copia y ejecuta el comando */}
       <div>
         <div className="flex items-center gap-3 mb-3">
           <span className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white text-sm font-bold shrink-0">
-            5
+            4
           </span>
           <div>
             <h3 className="font-semibold text-slate-900">Ejecuta el comando</h3>
