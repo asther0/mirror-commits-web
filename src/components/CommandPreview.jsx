@@ -34,9 +34,9 @@ export default function CommandPreview({ config }) {
     }
 
     lines.push(`  --name "${config.mirrorName}" \\`);
+    lines.push(`  --username "${config.githubUsername}" \\`);
 
     if (config.autoPush) {
-      lines.push(`  --username "${config.githubUsername}" \\`);
       lines.push(`  --token "${config.githubToken}" \\`);
       lines.push('  --auto-push \\');
     }
@@ -67,9 +67,9 @@ export default function CommandPreview({ config }) {
     parts.push(`--emails "${emails}"`);
     parts.push(`--repos "${repos}"`);
     parts.push(`--name "${config.mirrorName}"`);
+    parts.push(`--username "${config.githubUsername}"`);
 
     if (config.autoPush) {
-      parts.push(`--username "${config.githubUsername}"`);
       parts.push(`--token "${config.githubToken}"`);
       parts.push('--auto-push');
     }

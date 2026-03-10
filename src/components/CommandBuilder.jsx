@@ -38,6 +38,22 @@ export default function CommandBuilder({ config, updateConfig }) {
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
+              Usuario de GitHub
+            </label>
+            <input
+              type="text"
+              value={config.githubUsername}
+              onChange={(e) => updateConfig('githubUsername', e.target.value)}
+              placeholder="tu-usuario"
+              className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+            />
+            <p className="mt-1 text-xs text-slate-400">
+              Donde se subirá el repo mirror
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-slate-700 mb-1.5">
               Nombre del repo mirror
             </label>
             <input
@@ -48,7 +64,7 @@ export default function CommandBuilder({ config, updateConfig }) {
               className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
             />
             <p className="mt-1 text-xs text-slate-400">
-              Se creará en tu máquina si no existe
+              Se creará si no existe
             </p>
           </div>
         </div>
@@ -82,19 +98,6 @@ export default function CommandBuilder({ config, updateConfig }) {
 
           {config.autoPush && (
             <div className="space-y-3 ml-7 pl-4 border-l-2 border-primary/20">
-              <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">
-                  Usuario de GitHub
-                </label>
-                <input
-                  type="text"
-                  value={config.githubUsername}
-                  onChange={(e) => updateConfig('githubUsername', e.target.value)}
-                  placeholder="tu-usuario"
-                  className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
-                />
-              </div>
-
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1.5">
                   Token de GitHub
