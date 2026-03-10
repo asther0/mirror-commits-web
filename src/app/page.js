@@ -159,15 +159,6 @@ export default function Home() {
             >
               shomei
             </a>
-            {' '}por{' '}
-            <a
-              href="https://github.com/PetarRan"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary hover:underline"
-            >
-              @PetarRan
-            </a>
           </p>
         </div>
       </footer>
