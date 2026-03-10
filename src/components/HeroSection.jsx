@@ -1,6 +1,25 @@
 'use client';
 
+import { useState, useEffect } from 'react';
+
+const WORDS = ['trabajo', 'freelos', 'empresa', 'clientes', 'la uni'];
+
 export default function HeroSection() {
+  const [wordIndex, setWordIndex] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsAnimating(true);
+      setTimeout(() => {
+        setWordIndex((prev) => (prev + 1) % WORDS.length);
+        setIsAnimating(false);
+      }, 200);
+    }, 2500);
+
+    return () => clearInterval(interval);
+  }, []);
+
   const handleScrollToConfig = () => {
     const element = document.getElementById('configurador');
     if (element) {
@@ -12,7 +31,17 @@ export default function HeroSection() {
     <section className="hero-gradient py-20 px-6">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4 animate-fade-in-up text-balance">
-          Refleja tus commits de trabajo en tu GitHub
+          Refleja tus commits de{' '}
+          <span
+            className={`inline-block text-primary transition-all duration-200 ${
+              isAnimating
+                ? 'opacity-0 translate-y-2'
+                : 'opacity-100 translate-y-0'
+            }`}
+          >
+            {WORDS[wordIndex]}
+          </span>
+          {' '}en tu GitHub
         </h2>
         <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto animate-fade-in-up animation-delay-100 text-balance">
           Si usas un email diferente en el trabajo, tu gráfico de contribuciones no lo refleja. Esto lo soluciona.
