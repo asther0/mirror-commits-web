@@ -96,13 +96,13 @@ export default function ContributionGraph() {
       {/* After */}
       <div className="bg-white border border-accent/30 rounded-xl p-6 text-center shadow-sm shadow-accent/10">
         <p className="text-sm font-semibold text-accent-dark mb-4">
-          Tu GitHub despues
+          Tu GitHub después
         </p>
         <div className="flex justify-center overflow-hidden">
           <GraphGrid grid={AFTER_GRID} variant="after" />
         </div>
         <p className="text-xs text-slate-400 mt-3">
-          Ahora si refleja tu esfuerzo real
+          Ahora sí se ve tu actividad
         </p>
       </div>
     </div>

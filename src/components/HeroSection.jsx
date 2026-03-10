@@ -12,11 +12,10 @@ export default function HeroSection() {
     <section className="hero-gradient py-20 px-6">
       <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-4xl lg:text-5xl font-bold text-slate-900 mb-4 animate-fade-in-up text-balance">
-          Tu trabajo merece ser visto
+          Refleja tus commits de trabajo en tu GitHub
         </h2>
         <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto animate-fade-in-up animation-delay-100 text-balance">
-          Refleja tu actividad laboral en tu GitHub personal sin compartir código privado.
-          Solo timestamps, cero secretos.
+          Si usas un email diferente en el trabajo, tu gráfico de contribuciones no lo refleja. Esto lo soluciona.
         </p>
 
         <button
@@ -35,19 +34,19 @@ export default function HeroSection() {
             <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
-            100% local
+            Corre en tu terminal
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
-            Sin código expuesto
+            No sube tu código
           </div>
           <div className="flex items-center gap-2 text-sm text-slate-500">
             <svg className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
             </svg>
-            Solo timestamps
+            Solo copia fechas
           </div>
         </div>
       </div>

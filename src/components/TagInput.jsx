@@ -5,11 +5,11 @@ import { useState } from 'react';
 const VALIDATORS = {
   email: {
     regex: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-    errorMessage: 'Email no valido',
+    errorMessage: 'Email no válido',
   },
   url: {
     regex: /^https?:\/\/.+\..+/,
-    errorMessage: 'URL no valida (debe empezar con https://)',
+    errorMessage: 'URL no válida (debe empezar con https://)',
   },
   text: {
     regex: /^.+$/,
@@ -39,7 +39,7 @@ export default function TagInput({
     }
 
     if (value.includes(trimmed)) {
-      setError('Ya esta agregado');
+      setError('Ya está agregado');
       return false;
     }
 

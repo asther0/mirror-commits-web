@@ -42,11 +42,11 @@ export default function Home() {
       <section className="max-w-5xl mx-auto px-6 py-16 animate-fade-in-up">
         <div className="text-center mb-10">
           <h2 className="text-2xl font-bold text-slate-900 mb-3">
-            El problema que todos conocemos
+            El problema
           </h2>
           <p className="text-slate-500 max-w-2xl mx-auto">
             Programas todo el año en el trabajo, pero tu GitHub personal aparece vacío
-            porque usas un email diferente para los commits laborales.
+            porque los commits van con otro email.
           </p>
         </div>
         <ContributionGraph />
@@ -55,7 +55,7 @@ export default function Home() {
       {/* Origen -> Proceso -> Destino (visual flow) */}
       <section className="max-w-5xl mx-auto px-6 pb-16">
         <h2 className="text-2xl font-bold text-slate-900 text-center mb-10">
-          Como funciona
+          Cómo funciona
         </h2>
         <div className="grid md:grid-cols-3 gap-6 items-start">
           {/* Origen */}

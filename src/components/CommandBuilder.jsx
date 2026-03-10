@@ -15,7 +15,7 @@ export default function CommandBuilder({ config, updateConfig }) {
           </div>
           <div>
             <h3 className="font-semibold text-slate-900">Origen</h3>
-            <p className="text-xs text-slate-400">De donde vienen tus commits</p>
+            <p className="text-xs text-slate-400">De dónde vienen tus commits</p>
           </div>
         </div>
 
@@ -50,7 +50,7 @@ export default function CommandBuilder({ config, updateConfig }) {
           </div>
           <div>
             <h3 className="font-semibold text-slate-900">Destino</h3>
-            <p className="text-xs text-slate-400">Donde se reflejaran los commits</p>
+            <p className="text-xs text-slate-400">Donde se reflejarán los commits</p>
           </div>
         </div>
 
@@ -80,7 +80,7 @@ export default function CommandBuilder({ config, updateConfig }) {
               className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
             />
             <p className="mt-1 text-xs text-slate-400">
-              Se creara si no existe
+              Se creará si no existe
             </p>
           </div>
         </div>
@@ -97,7 +97,7 @@ export default function CommandBuilder({ config, updateConfig }) {
           </div>
           <div>
             <h3 className="font-semibold text-slate-900">Opciones</h3>
-            <p className="text-xs text-slate-400">Configuracion adicional</p>
+            <p className="text-xs text-slate-400">Configuración adicional</p>
           </div>
         </div>
 
@@ -162,7 +162,7 @@ export default function CommandBuilder({ config, updateConfig }) {
             />
             <div>
               <span className="font-medium text-slate-800">Modo prueba (dry-run)</span>
-              <span className="text-slate-400 block text-xs">Solo muestra lo que haria, sin hacer cambios</span>
+              <span className="text-slate-400 block text-xs">Solo muestra lo que haría, sin hacer cambios</span>
             </div>
           </label>
         </div>

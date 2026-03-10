@@ -187,8 +187,7 @@ Dame un análisis detallado de seguridad y dime si es seguro ejecutarlo.`;
       {/* Security Notice */}
       <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl px-4 py-3">
         <p className="text-xs text-amber-700">
-          <span className="font-semibold">Seguridad:</span>{' '}
-          Todo se ejecuta localmente. No se envía código, mensajes ni datos a ningún servidor. Solo se usan las fechas.
+          Todo corre en tu terminal. No se envía nada a ningún servidor, solo se copian las fechas de tus commits.
         </p>
       </div>
     </div>
