@@ -4,48 +4,67 @@ import TagInput from '@/components/TagInput';
 
 export default function CommandBuilder({ config, updateConfig }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* PASO 1: DATOS */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6">
-        <div className="flex items-center gap-3 mb-6">
-          <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-white text-sm font-bold shrink-0">
+      <div className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6">
+        <div className="flex items-center gap-2 sm:gap-3 mb-5 sm:mb-6">
+          <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-white text-xs sm:text-sm font-bold shrink-0">
             1
           </span>
           <div>
-            <h3 className="font-semibold text-slate-900">Tus commits de trabajo</h3>
+            <h3 className="font-semibold text-slate-900 text-sm sm:text-base">Tus commits de trabajo</h3>
             <p className="text-xs text-slate-400">Emails, repos y nombre del mirror</p>
           </div>
         </div>
 
         <div className="space-y-5">
-          <TagInput
-            label="Emails de trabajo"
-            value={config.emails}
-            onChange={(newEmails) => updateConfig('emails', newEmails)}
-            placeholder="trabajo@empresa.com"
-            type="email"
-            helpText="Los emails con los que haces commits en el trabajo"
-          />
+          <div>
+            <div className="mb-1.5">
+              <span className="text-sm font-medium text-slate-700">
+                Emails de trabajo
+                <span className="text-red-500 ml-1">*</span>
+              </span>
+            </div>
+            <TagInput
+              value={config.emails}
+              onChange={(newEmails) => updateConfig('emails', newEmails)}
+              placeholder="trabajo@empresa.com"
+              type="email"
+              helpText="Los emails con los que haces commits en el trabajo"
+            />
+          </div>
 
-          <TagInput
-            label="Repositorios"
-            value={config.repos}
-            onChange={(newRepos) => updateConfig('repos', newRepos)}
-            placeholder="https://github.com/usuario/repo"
-            type="url"
-            helpText="URLs completas de los repos de GitHub"
-          />
+          <div>
+            <div className="mb-1.5">
+              <span className="text-sm font-medium text-slate-700">
+                Repositorios
+                <span className="text-red-500 ml-1">*</span>
+              </span>
+            </div>
+            <TagInput
+              value={config.repos}
+              onChange={(newRepos) => updateConfig('repos', newRepos)}
+              placeholder="https://github.com/usuario/repo"
+              type="url"
+              helpText="URLs de GitHub (públicas o privadas con token)"
+            />
+          </div>
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
               Usuario de GitHub
+              <span className="text-red-500 ml-1">*</span>
             </label>
             <input
               type="text"
               value={config.githubUsername}
               onChange={(e) => updateConfig('githubUsername', e.target.value)}
               placeholder="tu-usuario"
-              className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+              className={`w-full bg-white border rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:ring-1 outline-none transition-colors ${
+                !config.githubUsername || config.githubUsername.trim() === ''
+                  ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+                  : 'border-slate-300 focus:border-primary focus:ring-primary'
+              }`}
             />
             <p className="mt-1 text-xs text-slate-400">
               Donde se subirá el repo mirror
@@ -55,13 +74,18 @@ export default function CommandBuilder({ config, updateConfig }) {
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
               Nombre del repo mirror
+              <span className="text-red-500 ml-1">*</span>
             </label>
             <input
               type="text"
               value={config.mirrorName}
               onChange={(e) => updateConfig('mirrorName', e.target.value)}
               placeholder="work-mirror-2025"
-              className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
+              className={`w-full bg-white border rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:ring-1 outline-none transition-colors ${
+                !config.mirrorName || config.mirrorName.trim() === ''
+                  ? 'border-red-300 focus:border-red-500 focus:ring-red-500'
+                  : 'border-slate-300 focus:border-primary focus:ring-primary'
+              }`}
             />
             <p className="mt-1 text-xs text-slate-400">
               Se creará si no existe
@@ -71,13 +95,13 @@ export default function CommandBuilder({ config, updateConfig }) {
       </div>
 
       {/* PASO 2: OPCIONES */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6">
-        <div className="flex items-center gap-3 mb-6">
-          <span className="flex items-center justify-center w-8 h-8 rounded-full bg-slate-200 text-slate-600 text-sm font-bold shrink-0">
+      <div className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6">
+        <div className="flex items-center gap-2 sm:gap-3 mb-5 sm:mb-6">
+          <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-200 text-slate-600 text-xs sm:text-sm font-bold shrink-0">
             2
           </span>
           <div>
-            <h3 className="font-semibold text-slate-900">Opciones extras</h3>
+            <h3 className="font-semibold text-slate-900 text-sm sm:text-base">Opciones extras</h3>
             <p className="text-xs text-slate-400">Opcional: auto-push, repo privado, modo prueba</p>
           </div>
         </div>
@@ -95,6 +119,14 @@ export default function CommandBuilder({ config, updateConfig }) {
               <span className="text-slate-400 block text-xs">Sube automáticamente el repo mirror a GitHub</span>
             </div>
           </label>
+
+          {!config.autoPush && (
+            <div className="bg-blue-50 border border-blue-200 rounded-lg px-3 py-2.5 ml-7">
+              <p className="text-xs text-blue-700">
+                💡 <strong>Tip:</strong> Si tus repositorios son privados, necesitarás activar esta opción y agregar un token para clonarlos.
+              </p>
+            </div>
+          )}
 
           {config.autoPush && (
             <div className="space-y-3 ml-7 pl-4 border-l-2 border-primary/20">
@@ -117,8 +149,11 @@ export default function CommandBuilder({ config, updateConfig }) {
                   placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
                   className="w-full bg-white border border-slate-300 rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors"
                 />
+                <p className="mt-1 text-xs text-slate-500">
+                  Se usa para: clonar repos privados y subir el mirror automáticamente
+                </p>
                 <p className="mt-1 text-xs text-amber-600">
-                  No se envía a ningún servidor - solo se usa en tu terminal
+                  🔒 No se envía a ningún servidor - solo corre en tu terminal
                 </p>
               </div>
 

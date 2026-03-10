@@ -82,6 +82,11 @@ if [ -z "$MIRROR_NAME" ]; then
   exit 1
 fi
 
+if [ -z "$GITHUB_USERNAME" ]; then
+  echo -e "${RED}Error: --username is required${NC}"
+  exit 1
+fi
+
 if [ "$AUTO_PUSH" = true ] && [ -z "$GITHUB_USERNAME" ]; then
   echo -e "${RED}Error: --username required for auto-push${NC}"
   exit 1
@@ -115,6 +120,7 @@ echo ""
 
 # Create temp file
 TEMP_FILE=$(mktemp)
+TEMP_DIR=$(mktemp -d)
 
 echo -e "${CYAN}Scanning repos...${NC}"
 TOTAL_COMMITS=0
@@ -122,12 +128,40 @@ TOTAL_COMMITS=0
 for repo in "${REPO_ARRAY[@]}"; do
   repo=$(echo "$repo" | xargs) # trim whitespace
 
-  if [ ! -d "$repo/.git" ]; then
-    echo -e "  ${YELLOW}⊘${NC} $repo: not found"
-    continue
+  # Detect if it's a URL or local path
+  if [[ "$repo" =~ ^https?:// ]]; then
+    # It's a URL - clone it temporarily
+    REPO_NAME=$(basename "$repo" .git)
+    CLONE_DIR="$TEMP_DIR/$REPO_NAME"
+
+    echo -e "  ${CYAN}Cloning${NC} $repo..."
+
+    # Try to clone (supports both public and private with token)
+    if [ -n "$GITHUB_TOKEN" ]; then
+      # Clone with token for private repos
+      CLONE_URL=$(echo "$repo" | sed "s|https://|https://$GITHUB_TOKEN@|")
+      git clone -q "$CLONE_URL" "$CLONE_DIR" 2>/dev/null
+    else
+      # Clone without token (public only)
+      git clone -q "$repo" "$CLONE_DIR" 2>/dev/null
+    fi
+
+    if [ ! -d "$CLONE_DIR/.git" ]; then
+      echo -e "  ${YELLOW}⊘${NC} $repo: failed to clone (may be private - try using --token)"
+      continue
+    fi
+
+    WORK_DIR="$CLONE_DIR"
+  else
+    # It's a local path
+    if [ ! -d "$repo/.git" ]; then
+      echo -e "  ${YELLOW}⊘${NC} $repo: not found"
+      continue
+    fi
+    WORK_DIR="$repo"
   fi
 
-  cd "$repo"
+  cd "$WORK_DIR"
   COUNT=$(git log --format="%ae" | grep -E "($GREP_PATTERN)" 2>/dev/null | wc -l || echo 0)
 
   if [ "$COUNT" -gt 0 ]; then
@@ -140,6 +174,11 @@ for repo in "${REPO_ARRAY[@]}"; do
 
   cd - > /dev/null
 done
+
+# Cleanup temp clones
+if [ -d "$TEMP_DIR" ]; then
+  rm -rf "$TEMP_DIR"
+fi
 
 echo ""
 echo -e "${GREEN}Total: $TOTAL_COMMITS commits${NC}"

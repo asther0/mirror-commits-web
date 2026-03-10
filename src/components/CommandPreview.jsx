@@ -1,10 +1,17 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function CommandPreview({ config }) {
   const [copied, setCopied] = useState(false);
   const [copiedForAI, setCopiedForAI] = useState(false);
+  const [isWindows, setIsWindows] = useState(false);
+  const [showWindowsHelp, setShowWindowsHelp] = useState(false);
+
+  useEffect(() => {
+    // Detect if user is on Windows
+    setIsWindows(navigator.platform.toLowerCase().includes('win'));
+  }, []);
 
   const generateCommand = () => {
     const lines = ['bash mirror.sh \\'];
@@ -81,7 +88,27 @@ export default function CommandPreview({ config }) {
 
   const command = generateCommand();
 
+  // Validation: check if required fields are filled
+  const hasEmails = config.emails && (Array.isArray(config.emails) ? config.emails.length > 0 : config.emails.trim() !== '');
+  const hasRepos = config.repos && (Array.isArray(config.repos) ? config.repos.length > 0 : config.repos.trim() !== '');
+  const hasMirrorName = config.mirrorName && config.mirrorName.trim() !== '';
+  const hasUsername = config.githubUsername && config.githubUsername.trim() !== '';
+  const hasToken = !config.autoPush || (config.githubToken && config.githubToken.trim() !== '');
+
+  const isValid = hasEmails && hasRepos && hasMirrorName && hasUsername && hasToken;
+
+  const getMissingFields = () => {
+    const missing = [];
+    if (!hasEmails) missing.push('Emails de trabajo');
+    if (!hasRepos) missing.push('Repositorios');
+    if (!hasMirrorName) missing.push('Nombre del repo mirror');
+    if (!hasUsername) missing.push('Usuario de GitHub');
+    if (!hasToken && config.autoPush) missing.push('Token de GitHub');
+    return missing;
+  };
+
   const copyToClipboard = async () => {
+    if (!isValid) return;
     try {
       await navigator.clipboard.writeText(generateCopyCommand());
       setCopied(true);
@@ -131,15 +158,15 @@ Dame un análisis detallado de seguridad y dime si es seguro ejecutarlo.`;
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5 sm:space-y-6">
       {/* PASO 3: Descarga el script */}
       <div>
-        <div className="flex items-center gap-3 mb-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white text-sm font-bold shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 mb-3">
+          <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-accent text-white text-xs sm:text-sm font-bold shrink-0">
             3
           </span>
           <div>
-            <h3 className="font-semibold text-slate-900">Descarga el script</h3>
+            <h3 className="font-semibold text-slate-900 text-sm sm:text-base">Descarga el script</h3>
             <p className="text-xs text-slate-400">Guarda mirror.sh en tu computadora</p>
           </div>
         </div>
@@ -154,6 +181,12 @@ Dame un análisis detallado de seguridad y dime si es seguro ejecutarlo.`;
             </svg>
             Descargar mirror.sh
           </button>
+
+          <div className="bg-green-50 border border-green-200 rounded-lg px-3 py-2">
+            <p className="text-xs text-green-700">
+              ✨ <strong>Actualizado:</strong> Ahora clona automáticamente tus repos de GitHub. Ya no necesitas tenerlos descargados localmente.
+            </p>
+          </div>
 
           <button
             onClick={copyScriptForAI}
@@ -173,42 +206,147 @@ Dame un análisis detallado de seguridad y dime si es seguro ejecutarlo.`;
 
       {/* PASO 4: Copia y ejecuta el comando */}
       <div>
-        <div className="flex items-center gap-3 mb-3">
-          <span className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white text-sm font-bold shrink-0">
+        <div className="flex items-center gap-2 sm:gap-3 mb-3">
+          <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-accent text-white text-xs sm:text-sm font-bold shrink-0">
             4
           </span>
           <div>
-            <h3 className="font-semibold text-slate-900">Ejecuta el comando</h3>
+            <h3 className="font-semibold text-slate-900 text-sm sm:text-base">Ejecuta el comando</h3>
             <p className="text-xs text-slate-400">Copia y pega esto en tu terminal</p>
           </div>
         </div>
 
         <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-          <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-            <h3 className="text-sm font-semibold text-slate-900">
-              Comando generado
-            </h3>
+          <div className="bg-slate-50 px-3 sm:px-4 py-2.5 sm:py-3 border-b border-slate-200 flex items-center justify-between gap-2">
+            <div className="flex items-center gap-2 flex-1 min-w-0">
+              <h3 className="text-xs sm:text-sm font-semibold text-slate-900">
+                Comando generado
+              </h3>
+              {isWindows && (
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 bg-blue-100 text-blue-700 rounded text-xs font-medium whitespace-nowrap">
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                  </svg>
+                  Requiere bash
+                </span>
+              )}
+            </div>
             <button
               onClick={copyToClipboard}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
-                copied
+              disabled={!isValid}
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all shrink-0 ${
+                !isValid
+                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                  : copied
                   ? 'bg-accent text-white'
                   : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
               }`}
+              title={!isValid ? 'Completa los campos requeridos' : ''}
             >
               {copied ? 'Copiado!' : 'Copiar'}
             </button>
           </div>
 
-          <div className="p-4 bg-slate-900">
-            <pre className="text-sm text-slate-100 font-mono leading-relaxed whitespace-pre-wrap break-all">
+          {/* Validation warning */}
+          {!isValid && (
+            <div className="bg-amber-50 border-b border-amber-200 px-3 sm:px-4 py-2.5">
+              <div className="flex items-start gap-2">
+                <svg className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                </svg>
+                <div className="flex-1">
+                  <p className="text-xs font-semibold text-amber-800 mb-1">
+                    Completa estos campos en el Paso 1:
+                  </p>
+                  <ul className="text-xs text-amber-700 space-y-0.5">
+                    {getMissingFields().map((field) => (
+                      <li key={field}>• {field}</li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="p-3 sm:p-4 bg-slate-900">
+            <pre className="text-xs sm:text-sm text-slate-100 font-mono leading-relaxed whitespace-pre-wrap break-all">
               <code>{command}</code>
             </pre>
           </div>
         </div>
 
+        {/* Windows Warning - Collapsed by default */}
+        {isWindows && (
+          <div className="mt-3">
+            <button
+              onClick={() => setShowWindowsHelp(!showWindowsHelp)}
+              className="w-full bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg px-4 py-3 transition-colors text-left"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5">
+                  <svg className="w-4 h-4 text-blue-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-sm text-blue-800">
+                    <strong>Usuario de Windows:</strong> Necesitas usar Git Bash
+                  </span>
+                </div>
+                <svg
+                  className={`w-4 h-4 text-blue-600 transition-transform shrink-0 ${showWindowsHelp ? 'rotate-180' : ''}`}
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </button>
+
+            {showWindowsHelp && (
+              <div className="mt-2 bg-white border border-blue-200 rounded-lg px-4 py-3 animate-fade-in">
+                <p className="text-xs text-slate-600 mb-3">
+                  <strong className="text-slate-800">mirror.sh</strong> es un script bash.
+                  PowerShell y CMD no pueden ejecutarlo.
+                </p>
+
+                <div className="bg-blue-50 rounded-lg p-3 mb-3 border border-blue-100">
+                  <p className="text-xs font-semibold text-blue-900 mb-2">Cómo ejecutarlo:</p>
+                  <ol className="text-xs text-blue-800 space-y-1.5 ml-4 list-decimal">
+                    <li>
+                      Busca <strong>"Git Bash"</strong> en el menú inicio de Windows
+                    </li>
+                    <li>
+                      Navega a la carpeta donde descargaste <code className="bg-white px-1.5 py-0.5 rounded font-mono text-xs border border-blue-200">mirror.sh</code>
+                    </li>
+                    <li>
+                      Pega el comando de arriba
+                    </li>
+                  </ol>
+                </div>
+
+                <div className="text-xs text-slate-600">
+                  <p className="font-semibold text-slate-700 mb-1">¿No tienes Git Bash?</p>
+                  <p>
+                    Instala <strong>Git for Windows</strong> desde{' '}
+                    <a
+                      href="https://gitforwindows.org/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:underline font-medium"
+                    >
+                      gitforwindows.org
+                    </a>{' '}
+                    (incluye Git Bash)
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Security Notice */}
-        <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl px-4 py-3 mt-3">
+        <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 mt-3">
           <p className="text-xs text-amber-700">
             Todo corre en tu terminal. No se envía nada a ningún servidor, solo se copian las fechas de tus commits.
           </p>

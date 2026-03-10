@@ -62,13 +62,13 @@ function GraphGrid({ grid, variant = 'before' }) {
   const colors = LEVEL_COLORS[variant];
 
   return (
-    <div className="flex gap-[3px]">
+    <div className="flex gap-[2px] sm:gap-[3px]">
       {grid.map((week, weekIndex) => (
-        <div key={weekIndex} className="flex flex-col gap-[3px]">
+        <div key={weekIndex} className="flex flex-col gap-[2px] sm:gap-[3px]">
           {week.map((level, dayIndex) => (
             <div
               key={dayIndex}
-              className={`w-[10px] h-[10px] rounded-[2px] ${colors[level]}`}
+              className={`w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] rounded-[2px] ${colors[level]}`}
             />
           ))}
         </div>
@@ -79,29 +79,29 @@ function GraphGrid({ grid, variant = 'before' }) {
 
 export default function ContributionGraph() {
   return (
-    <div className="grid md:grid-cols-2 gap-8">
+    <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
       {/* Before */}
-      <div className="bg-white border border-slate-200 rounded-xl p-6 text-center">
-        <p className="text-sm font-semibold text-slate-500 mb-4">
+      <div className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 text-center">
+        <p className="text-sm font-semibold text-slate-500 mb-3 sm:mb-4">
           Tu GitHub ahora
         </p>
-        <div className="flex justify-center overflow-hidden">
+        <div className="flex justify-center overflow-x-auto pb-2">
           <GraphGrid grid={BEFORE_GRID} variant="before" />
         </div>
-        <p className="text-xs text-slate-400 mt-3">
+        <p className="text-xs text-slate-400 mt-2 sm:mt-3">
           Casi vacío... pero si trabajaste todo el año
         </p>
       </div>
 
       {/* After */}
-      <div className="bg-white border border-accent/30 rounded-xl p-6 text-center shadow-sm shadow-accent/10">
-        <p className="text-sm font-semibold text-accent-dark mb-4">
+      <div className="bg-white border border-accent/30 rounded-xl p-5 sm:p-6 text-center shadow-sm shadow-accent/10">
+        <p className="text-sm font-semibold text-accent-dark mb-3 sm:mb-4">
           Tu GitHub después
         </p>
-        <div className="flex justify-center overflow-hidden">
+        <div className="flex justify-center overflow-x-auto pb-2">
           <GraphGrid grid={AFTER_GRID} variant="after" />
         </div>
-        <p className="text-xs text-slate-400 mt-3">
+        <p className="text-xs text-slate-400 mt-2 sm:mt-3">
           Ahora sí se ve tu actividad
         </p>
       </div>
