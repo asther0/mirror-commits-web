@@ -131,75 +131,88 @@ Dame un análisis detallado de seguridad y dime si es seguro ejecutarlo.`;
   };
 
   return (
-    <div className="space-y-4">
-      {/* Step 4 header */}
-      <div className="flex items-center gap-3 mb-2">
-        <span className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white text-sm font-bold shrink-0">
-          4
-        </span>
-        <div>
-          <h3 className="font-semibold text-slate-900">Descarga y ejecuta</h3>
-          <p className="text-xs text-slate-400">Copia el comando y corre mirror.sh en tu terminal</p>
+    <div className="space-y-6">
+      {/* PASO 4: Descarga el script */}
+      <div>
+        <div className="flex items-center gap-3 mb-3">
+          <span className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white text-sm font-bold shrink-0">
+            4
+          </span>
+          <div>
+            <h3 className="font-semibold text-slate-900">Descarga el script</h3>
+            <p className="text-xs text-slate-400">Guarda mirror.sh en tu computadora</p>
+          </div>
         </div>
-      </div>
 
-      {/* Generated Command */}
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-        <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
-          <h3 className="text-sm font-semibold text-slate-900">
-            Comando generado
-          </h3>
+        <div className="space-y-3">
           <button
-            onClick={copyToClipboard}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
-              copied
-                ? 'bg-accent text-white'
-                : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+            onClick={downloadScript}
+            className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-semibold transition-colors shadow-sm hover:shadow-md"
+          >
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+            </svg>
+            Descargar mirror.sh
+          </button>
+
+          <button
+            onClick={copyScriptForAI}
+            className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
+              copiedForAI
+                ? 'bg-purple-600 text-white shadow-sm'
+                : 'bg-white text-slate-600 hover:bg-purple-50 hover:text-purple-700 border border-slate-200 hover:border-purple-200'
             }`}
           >
-            {copied ? 'Copiado!' : 'Copiar'}
+            <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            {copiedForAI ? 'Copiado! Pegalo en ChatGPT o Claude' : 'Verificar seguridad de mirror.sh con IA'}
           </button>
         </div>
+      </div>
 
-        <div className="p-4 bg-slate-900">
-          <pre className="text-sm text-slate-100 font-mono leading-relaxed whitespace-pre-wrap break-all">
-            <code>{command}</code>
-          </pre>
+      {/* PASO 5: Copia y ejecuta el comando */}
+      <div>
+        <div className="flex items-center gap-3 mb-3">
+          <span className="flex items-center justify-center w-8 h-8 rounded-full bg-accent text-white text-sm font-bold shrink-0">
+            5
+          </span>
+          <div>
+            <h3 className="font-semibold text-slate-900">Ejecuta el comando</h3>
+            <p className="text-xs text-slate-400">Copia y pega esto en tu terminal</p>
+          </div>
         </div>
-      </div>
 
-      {/* Actions */}
-      <div className="space-y-3">
-        <button
-          onClick={downloadScript}
-          className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-semibold transition-colors shadow-sm hover:shadow-md"
-        >
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-          </svg>
-          Descargar mirror.sh
-        </button>
+        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+          <div className="bg-slate-50 px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+            <h3 className="text-sm font-semibold text-slate-900">
+              Comando generado
+            </h3>
+            <button
+              onClick={copyToClipboard}
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                copied
+                  ? 'bg-accent text-white'
+                  : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+              }`}
+            >
+              {copied ? 'Copiado!' : 'Copiar'}
+            </button>
+          </div>
 
-        <button
-          onClick={copyScriptForAI}
-          className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
-            copiedForAI
-              ? 'bg-purple-600 text-white shadow-sm'
-              : 'bg-white text-slate-600 hover:bg-purple-50 hover:text-purple-700 border border-slate-200 hover:border-purple-200'
-          }`}
-        >
-          <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-          </svg>
-          {copiedForAI ? 'Copiado! Pegalo en ChatGPT o Claude' : 'Verificar seguridad de mirror.sh con IA'}
-        </button>
-      </div>
+          <div className="p-4 bg-slate-900">
+            <pre className="text-sm text-slate-100 font-mono leading-relaxed whitespace-pre-wrap break-all">
+              <code>{command}</code>
+            </pre>
+          </div>
+        </div>
 
-      {/* Security Notice */}
-      <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl px-4 py-3">
-        <p className="text-xs text-amber-700">
-          Todo corre en tu terminal. No se envía nada a ningún servidor, solo se copian las fechas de tus commits.
-        </p>
+        {/* Security Notice */}
+        <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl px-4 py-3 mt-3">
+          <p className="text-xs text-amber-700">
+            Todo corre en tu terminal. No se envía nada a ningún servidor, solo se copian las fechas de tus commits.
+          </p>
+        </div>
       </div>
     </div>
   );

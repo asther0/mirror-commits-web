@@ -95,7 +95,7 @@ export default function Home() {
             Configura tu mirror
           </h2>
           <p className="text-slate-500">
-            Sigue los 4 pasos para generar y ejecutar el comando
+            Sigue los 5 pasos para generar y ejecutar el comando
           </p>
         </div>
 
