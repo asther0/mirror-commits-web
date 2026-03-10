@@ -6,6 +6,10 @@ An interactive web tool to generate commands for mirroring your work commits to 
 
 You've been shipping code all year using a work email, but your personal GitHub looks empty. Recruiters and other developers can't see your consistent contributions because they're hidden in private corporate repositories.
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/petarran/shomei/main/assets/screenshot-problem.png" alt="The problem: empty contribution graph despite working all year" width="600" />
+</p>
+
 ## The Solution
 
 **Mirror Commits** creates a new repository with empty commits that match the timestamps of your work commits. This updates your contribution graph to reflect your actual activity.
