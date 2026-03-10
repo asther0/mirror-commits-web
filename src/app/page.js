@@ -137,7 +137,7 @@ export default function Home() {
               shomei
             </a>
             {' '}&middot;{' '}
-            Hecho por{' '}
+            Interfaz web por{' '}
             <a
               href="https://github.com/asther0"
               target="_blank"
