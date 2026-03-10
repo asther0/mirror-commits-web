@@ -35,20 +35,9 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Section */}
+      {/* Hero + Problem (fused) */}
       <HeroSection />
-
-      {/* El Problema - with Contribution Graph */}
-      <section className="max-w-5xl mx-auto px-6 py-16 animate-fade-in-up">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">
-            El problema
-          </h2>
-          <p className="text-slate-500 max-w-2xl mx-auto">
-            Programas todo el año en el trabajo, pero tu GitHub personal aparece vacío
-            porque los commits van con otro email.
-          </p>
-        </div>
+      <section className="max-w-5xl mx-auto px-6 pb-16 -mt-4">
         <ContributionGraph />
       </section>
 

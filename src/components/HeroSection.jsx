@@ -44,7 +44,8 @@ export default function HeroSection() {
           {' '}en tu GitHub
         </h2>
         <p className="text-lg text-slate-600 mb-8 max-w-2xl mx-auto animate-fade-in-up animation-delay-100 text-balance">
-          Si usas otro email en el trabajo, tu contribution graph no lo refleja. Esto lo soluciona.
+          Programas todo el año pero tu contribution graph aparece vacío
+          porque los commits van con otro email. Esto lo soluciona.
         </p>
 
         <button
