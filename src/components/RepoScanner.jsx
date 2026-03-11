@@ -2,10 +2,6 @@
 
 import { useState } from 'react';
 
-/**
- * Component that scans repositories and detects all emails with commit counts
- * New UX flow: repos first, then auto-detect emails
- */
 export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
   const [scanning, setScanning] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
@@ -28,7 +24,7 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
     setError('');
     setEmailStats([]);
 
-    const emailMap = new Map(); // email -> { count, repos: [] }
+    const emailMap = new Map();
 
     try {
       for (const repoUrl of repos) {
@@ -76,12 +72,8 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
         repos: Array.from(stats.repos),
       }));
 
-      // Sort by commit count descending
       emailList.sort((a, b) => b.count - a.count);
-
       setEmailStats(emailList);
-
-      // No auto-select: user picks which emails to include
     } catch (err) {
       setError('Error al escanear repositorios');
       console.error(err);
@@ -111,17 +103,16 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
   };
 
   return (
-    <div className="space-y-4">
-      {/* Scan Button */}
+    <div className="space-y-3">
       <button
         onClick={scanRepositories}
         disabled={scanning || !repos || repos.length === 0}
-        className={`w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-semibold transition-all shadow-sm ${
+        className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all border ${
           scanning
-            ? 'bg-blue-500 text-white cursor-wait'
+            ? 'bg-slate-50 text-slate-500 border-slate-200 cursor-wait'
             : repos && repos.length > 0
-            ? 'bg-blue-600 hover:bg-blue-700 text-white hover:shadow-md'
-            : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+            ? 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+            : 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
         }`}
       >
         {scanning ? (
@@ -130,7 +121,7 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            Escaneando repositorios...
+            Escaneando...
           </>
         ) : (
           <>
@@ -142,39 +133,24 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
         )}
       </button>
 
-      {/* Error Message */}
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg px-3 py-2.5">
-          <div className="flex items-start gap-2">
-            <svg className="w-4 h-4 text-red-600 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-            </svg>
-            <p className="text-xs text-red-700">{error}</p>
-          </div>
-        </div>
+        <p className="text-xs text-red-600">{error}</p>
       )}
 
-      {/* Email Results */}
       {emailStats.length > 0 && (
-        <div className="bg-green-50 border border-green-200 rounded-xl overflow-hidden">
-          {/* Header - always visible, clickable to toggle */}
+        <div className="border border-slate-200 rounded-xl overflow-hidden bg-white">
           <button
             onClick={() => setExpanded(!expanded)}
-            className="w-full flex items-center justify-between p-4 text-left hover:bg-green-100/50 transition-colors"
+            className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-slate-50 transition-colors"
           >
-            <div className="flex items-center gap-2">
-              <svg className="w-4 h-4 text-green-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-              </svg>
-              <span className="text-sm font-semibold text-green-900">
-                {selectedEmails.length > 0
-                  ? `${selectedEmails.length} email${selectedEmails.length !== 1 ? 's' : ''} seleccionado${selectedEmails.length !== 1 ? 's' : ''}`
-                  : `${emailStats.length} email${emailStats.length !== 1 ? 's' : ''} encontrado${emailStats.length !== 1 ? 's' : ''}`
-                }
-              </span>
-            </div>
+            <span className="text-sm font-medium text-slate-700">
+              {selectedEmails.length > 0
+                ? `${selectedEmails.length} de ${emailStats.length} seleccionados`
+                : `${emailStats.length} emails encontrados`
+              }
+            </span>
             <svg
-              className={`w-4 h-4 text-green-600 transition-transform shrink-0 ${expanded ? 'rotate-180' : ''}`}
+              className={`w-4 h-4 text-slate-400 transition-transform ${expanded ? 'rotate-180' : ''}`}
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -184,68 +160,51 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
             </svg>
           </button>
 
-          {/* Collapsed: show selected emails as tags */}
           {!expanded && selectedEmails.length > 0 && (
             <div className="px-4 pb-3 flex flex-wrap gap-1.5">
               {selectedEmails.map((email) => (
-                <span key={email} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-mono bg-white border border-green-300 text-green-800">
+                <span key={email} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-slate-100 text-slate-600">
                   {email}
                 </span>
               ))}
             </div>
           )}
 
-          {/* Expanded: full list */}
           {expanded && (
-            <div className="px-4 pb-4 space-y-3">
-              <div className="flex gap-2 justify-end">
-                <button onClick={selectAll} className="text-xs font-medium text-green-700 hover:text-green-800">
+            <div className="border-t border-slate-100">
+              <div className="flex gap-2 justify-end px-4 py-2 bg-slate-50">
+                <button onClick={selectAll} className="text-xs text-slate-500 hover:text-slate-700">
                   Todos
                 </button>
                 <span className="text-slate-300">|</span>
-                <button onClick={deselectAll} className="text-xs font-medium text-green-700 hover:text-green-800">
+                <button onClick={deselectAll} className="text-xs text-slate-500 hover:text-slate-700">
                   Ninguno
                 </button>
               </div>
 
-              <div className="space-y-2">
+              <div className="divide-y divide-slate-100">
                 {emailStats.map((stat) => {
                   const isSelected = selectedEmails.includes(stat.email);
-                  const isNoreply = stat.email.includes('users.noreply.github.com');
 
                   return (
                     <label
                       key={stat.email}
-                      className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-all ${
-                        isSelected
-                          ? 'bg-white border-2 border-green-400 shadow-sm'
-                          : 'bg-white/50 border border-green-200 hover:border-green-300'
+                      className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
+                        isSelected ? 'bg-slate-50' : 'hover:bg-slate-50'
                       }`}
                     >
                       <input
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => toggleEmail(stat.email)}
-                        className="mt-0.5 w-4 h-4 rounded border-slate-300 text-green-600 focus:ring-green-500 shrink-0"
+                        className="w-4 h-4 rounded border-slate-300 text-slate-800 focus:ring-slate-400 shrink-0"
                       />
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 flex-wrap">
-                          <span className="text-sm font-mono text-slate-800 break-all">
-                            {stat.email}
-                          </span>
-                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700 shrink-0">
-                            {stat.count} commit{stat.count !== 1 ? 's' : ''}
-                          </span>
-                          {isNoreply && (
-                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700 shrink-0">
-                              GitHub noreply
-                            </span>
-                          )}
-                        </div>
-                        <div className="mt-1 text-xs text-slate-500">
-                          En: {stat.repos.join(', ')}
-                        </div>
+                        <span className="text-sm font-mono text-slate-800 break-all">{stat.email}</span>
                       </div>
+                      <span className="text-xs text-slate-400 shrink-0 tabular-nums">
+                        {stat.count}
+                      </span>
                     </label>
                   );
                 })}

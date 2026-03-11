@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
   --color-primary: #2563eb;
-  --color-primary-dark: #1e40af;
+  --color-primary-dark: #1d4ed8;
   --color-primary-light: #3b82f6;
   --color-accent: #22c55e;
   --color-accent-dark: #16a34a;
@@ -24,6 +24,7 @@
   --color-gray-700: #374151;
   --color-gray-900: #111827;
 
+  --font-family-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-family-mono: 'JetBrains Mono', 'Consolas', 'Monaco', monospace;
 }
 
@@ -39,6 +40,7 @@ html {
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
+  font-family: var(--font-family-sans);
 }
 
 @layer utilities {
@@ -47,7 +49,6 @@ body {
   }
 }
 
-/* Fade-in animation */
 @keyframes fade-in-up {
   from {
     opacity: 0;
@@ -78,33 +79,21 @@ body {
   opacity: 0;
 }
 
-/* Hero gradient */
 .hero-gradient {
-  background: linear-gradient(135deg, #eff6ff 0%, #ffffff 50%, #f0fdf4 100%);
+  background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
 }
 
-/* Section card hover */
-.card-hover {
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.card-hover:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px -5px rgba(0, 0, 0, 0.1), 0 4px 10px -6px rgba(0, 0, 0, 0.05);
-}
-
-/* Custom scrollbar */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: transparent;
 }
 
 ::-webkit-scrollbar-thumb {
   background: #cbd5e1;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {

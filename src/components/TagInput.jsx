@@ -83,19 +83,18 @@ export default function TagInput({
         </label>
       )}
 
-      {/* Tags display */}
       {value.length > 0 && (
-        <div className="flex flex-wrap gap-2 mb-2">
+        <div className="flex flex-wrap gap-1.5 mb-2">
           {value.map((tag, index) => (
             <span
               key={`${tag}-${index}`}
-              className="inline-flex items-center gap-1 px-2.5 py-1 bg-primary/10 text-primary-dark text-xs font-medium rounded-full border border-primary/20"
+              className="inline-flex items-center gap-1 px-2 py-1 bg-slate-100 text-slate-700 text-xs font-mono rounded border border-slate-200"
             >
               {tag}
               <button
                 type="button"
                 onClick={() => removeTag(index)}
-                className="ml-0.5 hover:text-red-600 transition-colors focus:outline-none"
+                className="ml-0.5 text-slate-400 hover:text-slate-700 transition-colors focus:outline-none"
                 aria-label={`Eliminar ${tag}`}
               >
                 &times;
@@ -105,7 +104,6 @@ export default function TagInput({
         </div>
       )}
 
-      {/* Input row */}
       <div className="flex gap-2">
         <input
           type="text"
@@ -113,22 +111,21 @@ export default function TagInput({
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className={`flex-1 bg-white border rounded-md px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors ${
+          className={`flex-1 bg-white border rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 outline-none transition-colors ${
             error
-              ? 'border-red-400 focus:border-red-500 focus:ring-1 focus:ring-red-500'
-              : 'border-slate-300 focus:border-primary focus:ring-1 focus:ring-primary'
+              ? 'border-red-300 focus:border-red-400 focus:ring-1 focus:ring-red-400'
+              : 'border-slate-200 focus:border-slate-400 focus:ring-1 focus:ring-slate-400'
           }`}
         />
         <button
           type="button"
           onClick={addTag}
-          className="px-3 py-2 bg-primary text-white text-sm font-medium rounded-md hover:bg-primary-dark transition-colors shrink-0"
+          className="px-3 py-2 bg-slate-900 text-white text-sm font-medium rounded-lg hover:bg-slate-800 transition-colors shrink-0"
         >
           Agregar
         </button>
       </div>
 
-      {/* Error / Help text */}
       {error && (
         <p className="mt-1 text-xs text-red-500">{error}</p>
       )}
