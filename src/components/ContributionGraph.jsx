@@ -68,13 +68,13 @@ function GraphGrid({ grid, variant = 'before' }) {
 
   return (
     <div className="relative">
-      <div className="flex gap-[2px] sm:gap-[3px]">
+      <div className="flex gap-[3px] sm:gap-[4px]">
         {grid.map((week, weekIndex) => (
-          <div key={weekIndex} className="flex flex-col gap-[2px] sm:gap-[3px]">
+          <div key={weekIndex} className="flex flex-col gap-[3px] sm:gap-[4px]">
             {week.map((cell, dayIndex) => (
               <div
                 key={dayIndex}
-                className={`w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] rounded-[2px] cursor-pointer transition-all hover:ring-1 hover:ring-slate-400 hover:ring-offset-1 ${colors[cell.level]}`}
+                className={`w-[10px] h-[10px] sm:w-[13px] sm:h-[13px] rounded-[2px] cursor-pointer transition-all hover:ring-1 hover:ring-slate-400 hover:ring-offset-1 ${colors[cell.level]}`}
                 onMouseEnter={(e) => {
                   const rect = e.target.getBoundingClientRect();
                   setTooltip({
@@ -94,7 +94,7 @@ function GraphGrid({ grid, variant = 'before' }) {
 
       {tooltip && createPortal(
         <div
-          className="fixed z-50 px-2.5 py-1.5 bg-slate-800 text-white text-[10px] rounded-md whitespace-nowrap pointer-events-none shadow-lg"
+          className="fixed z-50 px-3 py-2 bg-slate-800 text-white text-xs rounded-md whitespace-nowrap pointer-events-none shadow-lg"
           style={{
             left: tooltip.x,
             top: tooltip.y,
@@ -112,15 +112,15 @@ function GraphGrid({ grid, variant = 'before' }) {
 export default function ContributionGraph() {
   return (
     <div className="space-y-4">
-      <div className="bg-white border border-slate-200 rounded-xl p-5">
-        <p className="text-xs font-medium text-slate-400 mb-3">Tu GitHub ahora</p>
+      <div className="bg-white border border-slate-200 rounded-xl p-6">
+        <p className="text-sm font-medium text-slate-400 mb-4">Tu GitHub ahora</p>
         <div className="flex justify-center overflow-x-auto pb-1">
           <GraphGrid grid={BEFORE_GRID} variant="before" />
         </div>
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-xl p-5">
-        <p className="text-xs font-medium text-slate-900 mb-3">Tu GitHub después</p>
+      <div className="bg-white border border-slate-200 rounded-xl p-6">
+        <p className="text-sm font-medium text-slate-900 mb-4">Tu GitHub después</p>
         <div className="flex justify-center overflow-x-auto pb-1">
           <GraphGrid grid={AFTER_GRID} variant="after" />
         </div>

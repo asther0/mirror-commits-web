@@ -5,17 +5,17 @@ import RepoScanner from '@/components/RepoScanner';
 
 export default function CommandBuilder({ config, updateConfig }) {
   return (
-    <div className="space-y-10">
+    <div className="space-y-12">
       {/* STEP 1 */}
       <section>
-        <div className="flex items-center gap-3 mb-5">
-          <span className="w-7 h-7 rounded-full border-2 border-slate-200 flex items-center justify-center text-[11px] font-mono text-slate-400 shrink-0">01</span>
-          <h3 className="text-base font-semibold text-slate-900">Repositorios y emails</h3>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="w-8 h-8 rounded-full border-2 border-slate-200 flex items-center justify-center text-xs font-mono text-slate-400 shrink-0">01</span>
+          <h3 className="text-lg font-semibold text-slate-900">Repositorios y emails</h3>
         </div>
 
         <div className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+            <label className="block text-base font-medium text-slate-700 mb-2">
               Repositorios de trabajo <span className="text-slate-400">*</span>
             </label>
             <TagInput
@@ -28,10 +28,10 @@ export default function CommandBuilder({ config, updateConfig }) {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+            <label className="block text-base font-medium text-slate-700 mb-2">
               Emails de tus commits <span className="text-slate-400">*</span>
             </label>
-            <p className="text-xs text-slate-400 mb-3">
+            <p className="text-sm text-slate-400 mb-3">
               Escanea tus repos para detectarlos automáticamente
             </p>
             <RepoScanner
@@ -45,14 +45,14 @@ export default function CommandBuilder({ config, updateConfig }) {
 
       {/* STEP 2 */}
       <section>
-        <div className="flex items-center gap-3 mb-5">
-          <span className="w-7 h-7 rounded-full border-2 border-slate-200 flex items-center justify-center text-[11px] font-mono text-slate-400 shrink-0">02</span>
-          <h3 className="text-base font-semibold text-slate-900">Destino</h3>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="w-8 h-8 rounded-full border-2 border-slate-200 flex items-center justify-center text-xs font-mono text-slate-400 shrink-0">02</span>
+          <h3 className="text-lg font-semibold text-slate-900">Destino</h3>
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-4">
+        <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+            <label className="block text-base font-medium text-slate-700 mb-2">
               Usuario de GitHub <span className="text-slate-400">*</span>
             </label>
             <input
@@ -60,12 +60,12 @@ export default function CommandBuilder({ config, updateConfig }) {
               value={config.githubUsername}
               onChange={(e) => updateConfig('githubUsername', e.target.value)}
               placeholder="tu-usuario"
-              className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none transition-colors"
+              className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-base text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none transition-colors"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1.5">
+            <label className="block text-base font-medium text-slate-700 mb-2">
               Nombre del repo mirror <span className="text-slate-400">*</span>
             </label>
             <input
@@ -73,7 +73,7 @@ export default function CommandBuilder({ config, updateConfig }) {
               value={config.mirrorName}
               onChange={(e) => updateConfig('mirrorName', e.target.value)}
               placeholder="work-mirror-2025"
-              className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none transition-colors"
+              className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-base text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none transition-colors"
             />
           </div>
         </div>
@@ -81,38 +81,38 @@ export default function CommandBuilder({ config, updateConfig }) {
 
       {/* OPTIONS */}
       <section>
-        <div className="flex items-center gap-3 mb-5">
-          <span className="w-7 h-7 rounded-full border border-dashed border-slate-300 flex items-center justify-center text-[11px] font-mono text-slate-400 shrink-0">~</span>
+        <div className="flex items-center gap-3 mb-6">
+          <span className="w-8 h-8 rounded-full border border-dashed border-slate-300 flex items-center justify-center text-xs font-mono text-slate-400 shrink-0">~</span>
           <div className="flex items-baseline gap-2">
-            <h3 className="text-base font-semibold text-slate-900">Opciones</h3>
-            <span className="text-xs text-slate-400">opcional</span>
+            <h3 className="text-lg font-semibold text-slate-900">Opciones</h3>
+            <span className="text-sm text-slate-400">opcional</span>
           </div>
         </div>
 
-        <div className="space-y-3">
-          <label className="flex items-start gap-3 text-sm cursor-pointer group">
+        <div className="space-y-4">
+          <label className="flex items-start gap-3 text-base cursor-pointer group">
             <input
               type="checkbox"
               checked={config.autoPush}
               onChange={(e) => updateConfig('autoPush', e.target.checked)}
-              className="mt-0.5 w-4 h-4 rounded border-slate-300 text-slate-800 focus:ring-slate-400"
+              className="mt-1 w-5 h-5 rounded border-slate-300 text-slate-800 focus:ring-slate-400"
             />
             <div>
               <span className="text-slate-700 group-hover:text-slate-900 transition-colors">Auto-push a GitHub</span>
-              <span className="text-slate-400 block text-xs">Sube automáticamente el repo mirror</span>
+              <span className="text-slate-400 block text-sm">Sube automáticamente el repo mirror</span>
             </div>
           </label>
 
           {config.autoPush && (
-            <div className="ml-7 pl-4 border-l border-slate-200 space-y-3">
+            <div className="ml-8 pl-5 border-l border-slate-200 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1.5">
+                <label className="block text-base font-medium text-slate-700 mb-2">
                   Token de GitHub
                   <a
                     href="https://github.com/settings/tokens/new?scopes=repo&description=Mirror%20Commits"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="ml-2 text-slate-400 hover:text-slate-600 text-xs font-normal"
+                    className="ml-2 text-slate-400 hover:text-slate-600 text-sm font-normal"
                   >
                     crear uno &rarr;
                   </a>
@@ -122,32 +122,32 @@ export default function CommandBuilder({ config, updateConfig }) {
                   value={config.githubToken}
                   onChange={(e) => updateConfig('githubToken', e.target.value)}
                   placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
-                  className="w-full bg-white border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none transition-colors"
+                  className="w-full bg-white border border-slate-200 rounded-lg px-4 py-3 text-base text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none transition-colors"
                 />
               </div>
 
-              <label className="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
+              <label className="flex items-center gap-3 text-base text-slate-700 cursor-pointer">
                 <input
                   type="checkbox"
                   checked={config.private}
                   onChange={(e) => updateConfig('private', e.target.checked)}
-                  className="w-4 h-4 rounded border-slate-300 text-slate-800 focus:ring-slate-400"
+                  className="w-5 h-5 rounded border-slate-300 text-slate-800 focus:ring-slate-400"
                 />
                 Hacer repositorio privado
               </label>
             </div>
           )}
 
-          <label className="flex items-start gap-3 text-sm cursor-pointer group">
+          <label className="flex items-start gap-3 text-base cursor-pointer group">
             <input
               type="checkbox"
               checked={config.dryRun}
               onChange={(e) => updateConfig('dryRun', e.target.checked)}
-              className="mt-0.5 w-4 h-4 rounded border-slate-300 text-slate-800 focus:ring-slate-400"
+              className="mt-1 w-5 h-5 rounded border-slate-300 text-slate-800 focus:ring-slate-400"
             />
             <div>
               <span className="text-slate-700 group-hover:text-slate-900 transition-colors">Modo prueba (dry-run)</span>
-              <span className="text-slate-400 block text-xs">Solo muestra lo que haría, sin hacer cambios</span>
+              <span className="text-slate-400 block text-sm">Solo muestra lo que haría, sin hacer cambios</span>
             </div>
           </label>
         </div>

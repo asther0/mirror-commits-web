@@ -107,7 +107,7 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
       <button
         onClick={scanRepositories}
         disabled={scanning || !repos || repos.length === 0}
-        className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all border ${
+        className={`w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-base font-medium transition-all border ${
           scanning
             ? 'bg-slate-50 text-slate-500 border-slate-200 cursor-wait'
             : repos && repos.length > 0
@@ -117,7 +117,7 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
       >
         {scanning ? (
           <>
-            <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+            <svg className="w-5 h-5 animate-spin" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
@@ -125,7 +125,7 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
           </>
         ) : (
           <>
-            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             {emailStats.length > 0 ? 'Volver a escanear' : 'Escanear emails en repos'}
@@ -141,9 +141,9 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
         <div className="border border-slate-200 rounded-xl overflow-hidden bg-white">
           <button
             onClick={() => setExpanded(!expanded)}
-            className="w-full flex items-center justify-between px-4 py-3 text-left hover:bg-slate-50 transition-colors"
+            className="w-full flex items-center justify-between px-5 py-3.5 text-left hover:bg-slate-50 transition-colors"
           >
-            <span className="text-sm font-medium text-slate-700">
+            <span className="text-base font-medium text-slate-700">
               {selectedEmails.length > 0
                 ? `${selectedEmails.length} de ${emailStats.length} seleccionados`
                 : `${emailStats.length} emails encontrados`
@@ -161,9 +161,9 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
           </button>
 
           {!expanded && selectedEmails.length > 0 && (
-            <div className="px-4 pb-3 flex flex-wrap gap-1.5">
+            <div className="px-5 pb-3.5 flex flex-wrap gap-2">
               {selectedEmails.map((email) => (
-                <span key={email} className="inline-flex items-center px-2 py-0.5 rounded text-xs font-mono bg-slate-100 text-slate-600">
+                <span key={email} className="inline-flex items-center px-3 py-1 rounded-lg text-sm font-mono bg-slate-100 text-slate-600">
                   {email}
                 </span>
               ))}
@@ -172,12 +172,12 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
 
           {expanded && (
             <div className="border-t border-slate-100">
-              <div className="flex gap-2 justify-end px-4 py-2 bg-slate-50">
-                <button onClick={selectAll} className="text-xs text-slate-500 hover:text-slate-700">
+              <div className="flex gap-3 justify-end px-5 py-2.5 bg-slate-50">
+                <button onClick={selectAll} className="text-sm text-slate-500 hover:text-slate-700">
                   Todos
                 </button>
                 <span className="text-slate-300">|</span>
-                <button onClick={deselectAll} className="text-xs text-slate-500 hover:text-slate-700">
+                <button onClick={deselectAll} className="text-sm text-slate-500 hover:text-slate-700">
                   Ninguno
                 </button>
               </div>
@@ -189,7 +189,7 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
                   return (
                     <label
                       key={stat.email}
-                      className={`flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors ${
+                      className={`flex items-center gap-3 px-5 py-3.5 cursor-pointer transition-colors ${
                         isSelected ? 'bg-slate-50' : 'hover:bg-slate-50'
                       }`}
                     >
@@ -197,12 +197,12 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
                         type="checkbox"
                         checked={isSelected}
                         onChange={() => toggleEmail(stat.email)}
-                        className="w-4 h-4 rounded border-slate-300 text-slate-800 focus:ring-slate-400 shrink-0"
+                        className="w-5 h-5 rounded border-slate-300 text-slate-800 focus:ring-slate-400 shrink-0"
                       />
                       <div className="flex-1 min-w-0">
-                        <span className="text-sm font-mono text-slate-800 break-all">{stat.email}</span>
+                        <span className="text-base font-mono text-slate-800 break-all">{stat.email}</span>
                       </div>
-                      <span className="text-xs text-slate-400 shrink-0 tabular-nums">
+                      <span className="text-sm text-slate-400 shrink-0 tabular-nums">
                         {stat.count}
                       </span>
                     </label>
