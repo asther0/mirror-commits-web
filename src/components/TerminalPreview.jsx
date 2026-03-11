@@ -195,13 +195,9 @@ export default function TerminalPreview() {
         </div>
       </div>
 
-      {/* Info box below terminal */}
-      <div className="mt-3 sm:mt-4 bg-blue-50/50 border border-blue-200/50 rounded-lg px-3 sm:px-4 py-2.5 sm:py-3">
-        <p className="text-xs text-blue-700">
-          💡 <strong>Nota:</strong> El script solo copia las <em>fechas</em> de tus commits.
-          No se copia código, mensajes de commit, ni ningún dato sensible de tus repositorios privados.
-        </p>
-      </div>
+      <p className="mt-4 text-xs text-slate-400 text-center max-w-md mx-auto">
+        El script solo copia las fechas de tus commits. No se copia código, mensajes, ni datos sensibles.
+      </p>
     </section>
   );
 }
