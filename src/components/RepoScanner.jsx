@@ -35,25 +35,35 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
         if (!repoInfo) continue;
 
         try {
-          const response = await fetch(
-            `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/commits?per_page=100`
-          );
+          let page = 1;
+          const maxPages = 10;
+          let hasMore = true;
 
-          if (!response.ok) continue;
+          while (hasMore && page <= maxPages) {
+            const response = await fetch(
+              `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/commits?per_page=100&page=${page}`
+            );
 
-          const commits = await response.json();
+            if (!response.ok) break;
 
-          commits.forEach((commit) => {
-            const email = commit.commit?.author?.email;
-            if (email) {
-              if (!emailMap.has(email)) {
-                emailMap.set(email, { count: 0, repos: new Set() });
+            const commits = await response.json();
+            if (commits.length === 0) break;
+
+            commits.forEach((commit) => {
+              const email = commit.commit?.author?.email;
+              if (email) {
+                if (!emailMap.has(email)) {
+                  emailMap.set(email, { count: 0, repos: new Set() });
+                }
+                const stats = emailMap.get(email);
+                stats.count++;
+                stats.repos.add(`${repoInfo.owner}/${repoInfo.repo}`);
               }
-              const stats = emailMap.get(email);
-              stats.count++;
-              stats.repos.add(`${repoInfo.owner}/${repoInfo.repo}`);
-            }
-          });
+            });
+
+            hasMore = commits.length === 100;
+            page++;
+          }
         } catch (err) {
           console.error(`Error scanning ${repoUrl}:`, err);
         }
