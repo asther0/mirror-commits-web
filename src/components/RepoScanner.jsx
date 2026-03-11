@@ -10,6 +10,7 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
   const [scanning, setScanning] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
   const [error, setError] = useState('');
+  const [expanded, setExpanded] = useState(true);
 
   const extractRepoInfo = (url) => {
     const match = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
@@ -91,7 +92,9 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
 
   const toggleEmail = (email) => {
     if (selectedEmails.includes(email)) {
-      onEmailsChange(selectedEmails.filter(e => e !== email));
+      const next = selectedEmails.filter(e => e !== email);
+      onEmailsChange(next);
+      if (next.length === 0) setExpanded(true);
     } else {
       onEmailsChange([...selectedEmails, email]);
     }
@@ -99,10 +102,12 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
 
   const selectAll = () => {
     onEmailsChange(emailStats.map(e => e.email));
+    setExpanded(false);
   };
 
   const deselectAll = () => {
     onEmailsChange([]);
+    setExpanded(true);
   };
 
   return (
@@ -151,75 +156,102 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
 
       {/* Email Results */}
       {emailStats.length > 0 && (
-        <div className="bg-green-50 border border-green-200 rounded-xl p-4 space-y-4">
-          <div className="flex items-center justify-between">
+        <div className="bg-green-50 border border-green-200 rounded-xl overflow-hidden">
+          {/* Header - always visible, clickable to toggle */}
+          <button
+            onClick={() => setExpanded(!expanded)}
+            className="w-full flex items-center justify-between p-4 text-left hover:bg-green-100/50 transition-colors"
+          >
             <div className="flex items-center gap-2">
-              <svg className="w-5 h-5 text-green-600" fill="currentColor" viewBox="0 0 20 20">
+              <svg className="w-4 h-4 text-green-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
-              <h4 className="text-sm font-semibold text-green-900">
-                {emailStats.length} email{emailStats.length !== 1 ? 's' : ''} encontrado{emailStats.length !== 1 ? 's' : ''}
-              </h4>
+              <span className="text-sm font-semibold text-green-900">
+                {selectedEmails.length > 0
+                  ? `${selectedEmails.length} email${selectedEmails.length !== 1 ? 's' : ''} seleccionado${selectedEmails.length !== 1 ? 's' : ''}`
+                  : `${emailStats.length} email${emailStats.length !== 1 ? 's' : ''} encontrado${emailStats.length !== 1 ? 's' : ''}`
+                }
+              </span>
             </div>
-            <div className="flex gap-2">
-              <button
-                onClick={selectAll}
-                className="text-xs font-medium text-green-700 hover:text-green-800"
-              >
-                Seleccionar todos
-              </button>
-              <span className="text-slate-300">|</span>
-              <button
-                onClick={deselectAll}
-                className="text-xs font-medium text-green-700 hover:text-green-800"
-              >
-                Ninguno
-              </button>
+            <svg
+              className={`w-4 h-4 text-green-600 transition-transform shrink-0 ${expanded ? 'rotate-180' : ''}`}
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+
+          {/* Collapsed: show selected emails as tags */}
+          {!expanded && selectedEmails.length > 0 && (
+            <div className="px-4 pb-3 flex flex-wrap gap-1.5">
+              {selectedEmails.map((email) => (
+                <span key={email} className="inline-flex items-center px-2 py-1 rounded-md text-xs font-mono bg-white border border-green-300 text-green-800">
+                  {email}
+                </span>
+              ))}
             </div>
-          </div>
+          )}
 
-          <div className="space-y-2">
-            {emailStats.map((stat) => {
-              const isSelected = selectedEmails.includes(stat.email);
-              const isNoreply = stat.email.includes('users.noreply.github.com');
+          {/* Expanded: full list */}
+          {expanded && (
+            <div className="px-4 pb-4 space-y-3">
+              <div className="flex gap-2 justify-end">
+                <button onClick={selectAll} className="text-xs font-medium text-green-700 hover:text-green-800">
+                  Todos
+                </button>
+                <span className="text-slate-300">|</span>
+                <button onClick={deselectAll} className="text-xs font-medium text-green-700 hover:text-green-800">
+                  Ninguno
+                </button>
+              </div>
 
-              return (
-                <label
-                  key={stat.email}
-                  className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-all ${
-                    isSelected
-                      ? 'bg-white border-2 border-green-400 shadow-sm'
-                      : 'bg-white/50 border border-green-200 hover:border-green-300'
-                  }`}
-                >
-                  <input
-                    type="checkbox"
-                    checked={isSelected}
-                    onChange={() => toggleEmail(stat.email)}
-                    className="mt-0.5 w-4 h-4 rounded border-slate-300 text-green-600 focus:ring-green-500 shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-sm font-mono text-slate-800 break-all">
-                        {stat.email}
-                      </span>
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700 shrink-0">
-                        {stat.count} commit{stat.count !== 1 ? 's' : ''}
-                      </span>
-                      {isNoreply && (
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700 shrink-0">
-                          GitHub noreply
-                        </span>
-                      )}
-                    </div>
-                    <div className="mt-1 text-xs text-slate-500">
-                      En: {stat.repos.join(', ')}
-                    </div>
-                  </div>
-                </label>
-              );
-            })}
-          </div>
+              <div className="space-y-2">
+                {emailStats.map((stat) => {
+                  const isSelected = selectedEmails.includes(stat.email);
+                  const isNoreply = stat.email.includes('users.noreply.github.com');
+
+                  return (
+                    <label
+                      key={stat.email}
+                      className={`flex items-start gap-3 p-3 rounded-lg cursor-pointer transition-all ${
+                        isSelected
+                          ? 'bg-white border-2 border-green-400 shadow-sm'
+                          : 'bg-white/50 border border-green-200 hover:border-green-300'
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => toggleEmail(stat.email)}
+                        className="mt-0.5 w-4 h-4 rounded border-slate-300 text-green-600 focus:ring-green-500 shrink-0"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 flex-wrap">
+                          <span className="text-sm font-mono text-slate-800 break-all">
+                            {stat.email}
+                          </span>
+                          <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700 shrink-0">
+                            {stat.count} commit{stat.count !== 1 ? 's' : ''}
+                          </span>
+                          {isNoreply && (
+                            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-700 shrink-0">
+                              GitHub noreply
+                            </span>
+                          )}
+                        </div>
+                        <div className="mt-1 text-xs text-slate-500">
+                          En: {stat.repos.join(', ')}
+                        </div>
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
