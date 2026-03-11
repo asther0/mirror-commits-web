@@ -80,10 +80,7 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
 
       setEmailStats(emailList);
 
-      // Auto-select all emails by default
-      if (emailList.length > 0 && selectedEmails.length === 0) {
-        onEmailsChange(emailList.map(e => e.email));
-      }
+      // No auto-select: user picks which emails to include
     } catch (err) {
       setError('Error al escanear repositorios');
       console.error(err);
