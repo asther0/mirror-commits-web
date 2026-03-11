@@ -9,7 +9,6 @@ export default function CommandPreview({ config }) {
   const [showWindowsHelp, setShowWindowsHelp] = useState(false);
 
   useEffect(() => {
-    // Detect if user is on Windows
     setIsWindows(navigator.platform.toLowerCase().includes('win'));
   }, []);
 
@@ -88,7 +87,6 @@ export default function CommandPreview({ config }) {
 
   const command = generateCommand();
 
-  // Validation: check if required fields are filled
   const hasEmails = config.emails && (Array.isArray(config.emails) ? config.emails.length > 0 : config.emails.trim() !== '');
   const hasRepos = config.repos && (Array.isArray(config.repos) ? config.repos.length > 0 : config.repos.trim() !== '');
   const hasMirrorName = config.mirrorName && config.mirrorName.trim() !== '';
@@ -96,16 +94,6 @@ export default function CommandPreview({ config }) {
   const hasToken = !config.autoPush || (config.githubToken && config.githubToken.trim() !== '');
 
   const isValid = hasEmails && hasRepos && hasMirrorName && hasUsername && hasToken;
-
-  const getMissingFields = () => {
-    const missing = [];
-    if (!hasEmails) missing.push('Emails de trabajo');
-    if (!hasRepos) missing.push('Repositorios');
-    if (!hasMirrorName) missing.push('Nombre del repo mirror');
-    if (!hasUsername) missing.push('Usuario de GitHub');
-    if (!hasToken && config.autoPush) missing.push('Token de GitHub');
-    return missing;
-  };
 
   const copyToClipboard = async () => {
     if (!isValid) return;
@@ -149,20 +137,20 @@ ${scriptContent}
   };
 
   return (
-    <div className="space-y-5 sm:space-y-6">
-      {/* PASO 3: Descarga el script */}
-      <div>
-        <div className="flex items-center gap-2 sm:gap-3 mb-3">
-          <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-accent text-white text-xs sm:text-sm font-bold shrink-0">
-            3
+    <div className="space-y-6">
+      {/* PASO 4: Descarga el script */}
+      <section>
+        <div className="flex items-center gap-3">
+          <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary/10 text-primary text-xs font-bold shrink-0">
+            4
           </span>
           <div>
-            <h3 className="font-semibold text-slate-900 text-sm sm:text-base">Descarga el script</h3>
-            <p className="text-xs text-slate-400">Guarda mirror.sh en tu computadora</p>
+            <h3 className="font-semibold text-slate-900 text-sm">Descarga y ejecuta</h3>
+            <p className="text-xs text-slate-400">Corre el script en tu terminal</p>
           </div>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-3 mt-4">
           <button
             onClick={downloadScript}
             className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg text-sm font-semibold transition-colors shadow-sm hover:shadow-md"
@@ -178,75 +166,58 @@ ${scriptContent}
             className={`w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all ${
               copiedForAI
                 ? 'bg-purple-600 text-white shadow-sm'
-                : 'bg-white text-slate-600 hover:bg-purple-50 hover:text-purple-700 border border-slate-200 hover:border-purple-200'
+                : 'bg-white text-slate-500 hover:bg-slate-50 hover:text-slate-700 border border-slate-200'
             }`}
           >
             <svg className="w-4 h-4 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
             </svg>
-            {copiedForAI ? 'Copiado! Pegalo en ChatGPT o Claude' : 'Verificar seguridad de mirror.sh con IA'}
+            {copiedForAI ? 'Copiado! Pegalo en ChatGPT o Claude' : 'Verificar seguridad con IA'}
           </button>
         </div>
-      </div>
+      </section>
 
-      {/* PASO 4: Copia y ejecuta el comando */}
-      <div>
-        <div className="flex items-center gap-2 sm:gap-3 mb-3">
-          <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-accent text-white text-xs sm:text-sm font-bold shrink-0">
-            4
-          </span>
-          <div>
-            <h3 className="font-semibold text-slate-900 text-sm sm:text-base">Ejecuta el comando</h3>
-            <p className="text-xs text-slate-400">Copia y pega esto en tu terminal</p>
-          </div>
+      <hr className="border-slate-100" />
+
+      {/* Comando generado */}
+      <section>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-semibold text-slate-900">Comando generado</h3>
+          <button
+            onClick={copyToClipboard}
+            disabled={!isValid}
+            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all shrink-0 ${
+              !isValid
+                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                : copied
+                ? 'bg-accent text-white'
+                : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
+            }`}
+            title={!isValid ? 'Completa los campos requeridos' : ''}
+          >
+            {copied ? 'Copiado!' : 'Copiar'}
+          </button>
         </div>
 
-        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-          <div className="bg-slate-50 px-3 sm:px-4 py-2.5 sm:py-3 border-b border-slate-200 flex items-center justify-between gap-2">
-            <div className="flex items-center gap-2 flex-1 min-w-0">
-              <h3 className="text-xs sm:text-sm font-semibold text-slate-900">
-                Comando generado
-              </h3>
-            </div>
-            <button
-              onClick={copyToClipboard}
-              disabled={!isValid}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all shrink-0 ${
-                !isValid
-                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                  : copied
-                  ? 'bg-accent text-white'
-                  : 'bg-slate-200 text-slate-700 hover:bg-slate-300'
-              }`}
-              title={!isValid ? 'Completa los campos requeridos' : ''}
-            >
-              {copied ? 'Copiado!' : 'Copiar'}
-            </button>
-          </div>
-
-          <div className="p-3 sm:p-4 bg-slate-900">
+        <div className="bg-slate-900 rounded-xl overflow-hidden">
+          <div className="p-3 sm:p-4">
             <pre className="text-xs sm:text-sm text-slate-100 font-mono leading-relaxed whitespace-pre-wrap break-all">
               <code>{command}</code>
             </pre>
           </div>
         </div>
 
-        {/* Windows Warning - Collapsed by default */}
+        {/* Windows Warning */}
         {isWindows && (
           <div className="mt-3">
             <button
               onClick={() => setShowWindowsHelp(!showWindowsHelp)}
-              className="w-full bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg px-4 py-3 transition-colors text-left"
+              className="w-full bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-lg px-4 py-2.5 transition-colors text-left"
             >
               <div className="flex items-center justify-between gap-3">
-                <div className="flex items-center gap-2.5">
-                  <svg className="w-4 h-4 text-blue-600 shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                  </svg>
-                  <span className="text-sm text-blue-800">
-                    <strong>Usuario de Windows:</strong> Necesitas usar Git Bash
-                  </span>
-                </div>
+                <span className="text-xs text-blue-800">
+                  <strong>Windows:</strong> Usa Git Bash para ejecutar
+                </span>
                 <svg
                   className={`w-4 h-4 text-blue-600 transition-transform shrink-0 ${showWindowsHelp ? 'rotate-180' : ''}`}
                   fill="none"
@@ -280,13 +251,10 @@ ${scriptContent}
           </div>
         )}
 
-        {/* Security Notice */}
-        <div className="bg-amber-50/50 border border-amber-200/50 rounded-xl px-3 sm:px-4 py-2.5 sm:py-3 mt-3">
-          <p className="text-xs text-amber-700">
-            Todo corre en tu terminal. No se envía nada a ningún servidor, solo se copian las fechas de tus commits.
-          </p>
-        </div>
-      </div>
+        <p className="text-xs text-slate-400 mt-3">
+          Todo corre en tu terminal. No se envía nada a ningún servidor.
+        </p>
+      </section>
     </div>
   );
 }

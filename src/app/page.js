@@ -139,26 +139,28 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Configuration Section - Two Columns */}
-      <section id="configurador" className="max-w-7xl mx-auto px-4 sm:px-6 pb-16">
+      {/* Configuration Section */}
+      <section id="configurador" className="max-w-5xl mx-auto px-4 sm:px-6 pb-16">
         <div className="text-center mb-8 sm:mb-10">
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2 sm:mb-3">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2">
             Configura tu mirror
           </h2>
-          <p className="text-sm sm:text-base text-slate-500">
-            Sigue los 4 pasos para generar y ejecutar el comando
+          <p className="text-sm text-slate-500">
+            4 pasos para generar y ejecutar el comando
           </p>
         </div>
 
-        <div className="flex flex-col lg:grid lg:grid-cols-5 gap-6 lg:gap-8 items-start">
-          {/* Left Column - Configuration (wider) */}
-          <div className="w-full lg:col-span-3">
-            <CommandBuilder config={config} updateConfig={updateConfig} />
-          </div>
+        <div className="bg-white border border-slate-200 rounded-2xl p-5 sm:p-8">
+          <div className="flex flex-col lg:grid lg:grid-cols-5 gap-8 lg:gap-10 items-start">
+            {/* Left Column - Steps 1-3 */}
+            <div className="w-full lg:col-span-3">
+              <CommandBuilder config={config} updateConfig={updateConfig} />
+            </div>
 
-          {/* Right Column - Generated Script (sticky on desktop, normal on mobile) */}
-          <div className="w-full lg:col-span-2 lg:sticky lg:top-20">
-            <CommandPreview config={config} />
+            {/* Right Column - Step 4 + Command */}
+            <div className="w-full lg:col-span-2 lg:sticky lg:top-20">
+              <CommandPreview config={config} />
+            </div>
           </div>
         </div>
       </section>

@@ -5,21 +5,12 @@ import RepoScanner from '@/components/RepoScanner';
 
 export default function CommandBuilder({ config, updateConfig }) {
   return (
-    <div className="space-y-5 sm:space-y-6">
+    <div className="space-y-6">
       {/* PASO 1: REPOSITORIOS + AUTO-SCAN */}
-      <div className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6">
-        <div className="flex items-center gap-2 sm:gap-3 mb-5 sm:mb-6">
-          <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-white text-xs sm:text-sm font-bold shrink-0">
-            1
-          </span>
-          <div>
-            <h3 className="font-semibold text-slate-900 text-sm sm:text-base">Agrega tus repos</h3>
-            <p className="text-xs text-slate-400">Luego escanearemos los emails automáticamente</p>
-          </div>
-        </div>
+      <section>
+        <StepHeader number={1} title="Agrega tus repos" subtitle="Luego escanearemos los emails" />
 
-        <div className="space-y-5">
-          {/* Repos Input */}
+        <div className="space-y-5 mt-4">
           <div>
             <div className="mb-1.5">
               <span className="text-sm font-medium text-slate-700">
@@ -36,14 +27,13 @@ export default function CommandBuilder({ config, updateConfig }) {
             />
           </div>
 
-          {/* Auto Email Scanner - NEW FLOW */}
-          <div className="border-t border-slate-200 pt-5">
-            <div className="mb-4">
-              <h4 className="text-sm font-semibold text-slate-700 mb-1">
-                ¿Qué emails tienen tus commits?
+          <div className="border-t border-slate-100 pt-4">
+            <div className="mb-3">
+              <h4 className="text-sm font-medium text-slate-700">
+                Emails de tus commits
               </h4>
-              <p className="text-xs text-slate-500">
-                Escanea tus repos para descubrir automáticamente los emails usados
+              <p className="text-xs text-slate-400 mt-0.5">
+                Escanea tus repos para detectarlos automáticamente
               </p>
             </div>
             <RepoScanner
@@ -52,9 +42,17 @@ export default function CommandBuilder({ config, updateConfig }) {
               onEmailsChange={(newEmails) => updateConfig('emails', newEmails)}
             />
           </div>
+        </div>
+      </section>
 
-          {/* Username */}
-          <div className="border-t border-slate-200 pt-5">
+      <hr className="border-slate-100" />
+
+      {/* PASO 2: DESTINO */}
+      <section>
+        <StepHeader number={2} title="Destino del mirror" subtitle="Donde se creará tu repositorio" />
+
+        <div className="space-y-4 mt-4">
+          <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
               Usuario de GitHub
               <span className="text-red-500 ml-1">*</span>
@@ -70,12 +68,8 @@ export default function CommandBuilder({ config, updateConfig }) {
                   : 'border-slate-300 focus:border-primary focus:ring-primary'
               }`}
             />
-            <p className="mt-1 text-xs text-slate-400">
-              Donde se subirá el repo mirror
-            </p>
           </div>
 
-          {/* Mirror Name */}
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
               Nombre del repo mirror
@@ -97,21 +91,15 @@ export default function CommandBuilder({ config, updateConfig }) {
             </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* PASO 2: OPCIONES */}
-      <div className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6">
-        <div className="flex items-center gap-2 sm:gap-3 mb-5 sm:mb-6">
-          <span className="flex items-center justify-center w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-slate-200 text-slate-600 text-xs sm:text-sm font-bold shrink-0">
-            2
-          </span>
-          <div>
-            <h3 className="font-semibold text-slate-900 text-sm sm:text-base">Opciones extras</h3>
-            <p className="text-xs text-slate-400">Opcional: auto-push, repo privado, modo prueba</p>
-          </div>
-        </div>
+      <hr className="border-slate-100" />
 
-        <div className="space-y-4">
+      {/* PASO 3: OPCIONES */}
+      <section>
+        <StepHeader number={3} title="Opciones" subtitle="Opcional" />
+
+        <div className="space-y-4 mt-4">
           <label className="flex items-start gap-3 text-sm text-slate-700 cursor-pointer">
             <input
               type="checkbox"
@@ -121,7 +109,7 @@ export default function CommandBuilder({ config, updateConfig }) {
             />
             <div>
               <span className="font-medium text-slate-800">Auto-push a GitHub</span>
-              <span className="text-slate-400 block text-xs">Sube automáticamente el repo mirror a GitHub</span>
+              <span className="text-slate-400 block text-xs">Sube automáticamente el repo mirror</span>
             </div>
           </label>
 
@@ -176,6 +164,20 @@ export default function CommandBuilder({ config, updateConfig }) {
             </div>
           </label>
         </div>
+      </section>
+    </div>
+  );
+}
+
+function StepHeader({ number, title, subtitle }) {
+  return (
+    <div className="flex items-center gap-3">
+      <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary/10 text-primary text-xs font-bold shrink-0">
+        {number}
+      </span>
+      <div>
+        <h3 className="font-semibold text-slate-900 text-sm">{title}</h3>
+        {subtitle && <p className="text-xs text-slate-400">{subtitle}</p>}
       </div>
     </div>
   );
