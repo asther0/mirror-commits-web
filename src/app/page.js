@@ -34,20 +34,25 @@ export default function Home() {
 
       <HeroSection />
 
-      {/* Configurator */}
-      <section id="configurador" className="max-w-3xl mx-auto px-4 sm:px-6 pb-16">
-        <div className="mb-10">
-          <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Configura tu mirror</h2>
-          <p className="text-sm text-slate-400 mt-1">Completa los pasos y ejecuta el comando en tu terminal</p>
-        </div>
+      {/* Configurator -- same max-w as hero for visual continuity */}
+      <section id="configurador" className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+        <div className="max-w-3xl">
+          <div className="mb-10">
+            <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Configura tu mirror</h2>
+            <p className="text-sm text-slate-400 mt-1">Completa los pasos y ejecuta el comando en tu terminal</p>
+          </div>
 
-        <div className="space-y-10">
-          <CommandBuilder config={config} updateConfig={updateConfig} />
-          <CommandPreview config={config} />
+          <div className="space-y-10">
+            <CommandBuilder config={config} updateConfig={updateConfig} />
+            <CommandPreview config={config} />
+          </div>
         </div>
       </section>
 
-      <TerminalPreview />
+      {/* Terminal preview -- same max-w container */}
+      <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
+        <TerminalPreview />
+      </section>
 
       <footer className="border-t border-slate-100 py-6">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center text-slate-400 text-xs">

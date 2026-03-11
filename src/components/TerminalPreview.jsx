@@ -97,43 +97,35 @@ export default function TerminalPreview() {
   };
 
   return (
-    <section className="max-w-4xl mx-auto px-4 sm:px-6 pb-12 sm:pb-16">
-      <div className="text-center mb-6 sm:mb-8">
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-2 sm:mb-3">
-          Preview del terminal
-        </h2>
-        <p className="text-slate-500 text-sm px-4 mb-2">
+    <div className="max-w-3xl">
+      <div className="mb-8">
+        <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Preview del terminal</h2>
+        <p className="text-sm text-slate-400 mt-1">
           Esto es lo que verás cuando ejecutes el comando
         </p>
-        {isWindows && (
-          <p className="text-xs text-blue-600 font-medium px-4">
-            (en Git Bash o WSL, no en PowerShell)
-          </p>
-        )}
       </div>
 
-      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden shadow-sm">
-        {/* Terminal header bar */}
-        <div className="bg-slate-800 px-3 sm:px-4 py-2.5 sm:py-3 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-b border-slate-700">
+      <div className="bg-slate-900 rounded-xl overflow-hidden">
+        <div className="px-4 py-2.5 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 border-b border-slate-800">
           <div className="flex items-center gap-2">
-            <div className="flex gap-1 sm:gap-1.5">
-              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-red-500"></div>
-              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-yellow-500"></div>
-              <div className="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full bg-green-500"></div>
+            <div className="flex gap-1.5">
+              <div className="w-2.5 h-2.5 rounded-full bg-slate-700"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-slate-700"></div>
+              <div className="w-2.5 h-2.5 rounded-full bg-slate-700"></div>
             </div>
-            <span className="text-xs text-slate-400 ml-2 sm:ml-3 font-mono">bash</span>
+            <span className="text-xs text-slate-500 ml-2 font-mono">bash</span>
           </div>
 
           <div className="flex gap-2">
             <button
               onClick={handlePlay}
               disabled={isPlaying && currentLine < outputLines.length}
-              className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 text-sm font-semibold rounded-lg transition-all shadow-sm ${
+              className={`flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-all ${
                 currentLine >= outputLines.length
-                  ? 'bg-primary hover:bg-primary-dark text-white'
+                  ? 'bg-slate-700 hover:bg-slate-600 text-white'
                   : isPlaying
-                  ? 'bg-slate-700 text-slate-300 cursor-not-allowed'
-                  : 'bg-accent hover:bg-accent-dark text-white hover:shadow-md'
+                  ? 'bg-slate-800 text-slate-400 cursor-not-allowed'
+                  : 'bg-white text-slate-900 hover:bg-slate-100'
               } disabled:opacity-50 disabled:cursor-not-allowed`}
             >
               {currentLine >= outputLines.length ? (
@@ -162,7 +154,7 @@ export default function TerminalPreview() {
             </button>
             <button
               onClick={handleReset}
-              className="px-3 py-2 text-xs font-medium bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-lg transition-colors"
+              className="px-3 py-2 text-xs font-medium bg-slate-800 hover:bg-slate-700 text-slate-400 rounded-lg transition-colors"
               title="Reiniciar"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -172,8 +164,7 @@ export default function TerminalPreview() {
           </div>
         </div>
 
-        {/* Terminal content */}
-        <div className="bg-slate-900 p-4 sm:p-6 min-h-[350px] sm:min-h-[400px] max-h-[450px] sm:max-h-[500px] overflow-y-auto">
+        <div className="p-4 sm:p-6 min-h-[350px] max-h-[450px] overflow-y-auto">
           <div className="font-mono text-xs sm:text-sm space-y-1">
             {outputLines.slice(0, currentLine).map((line, index) => (
               <div
@@ -195,9 +186,9 @@ export default function TerminalPreview() {
         </div>
       </div>
 
-      <p className="mt-4 text-xs text-slate-400 text-center max-w-md mx-auto">
+      <p className="mt-4 text-xs text-slate-400">
         El script solo copia las fechas de tus commits. No se copia código, mensajes, ni datos sensibles.
       </p>
-    </section>
+    </div>
   );
 }
