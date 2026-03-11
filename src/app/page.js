@@ -34,7 +34,7 @@ export default function Home() {
 
       <HeroSection />
 
-      {/* Configurator -- same max-w as hero for visual continuity */}
+      {/* Configurator */}
       <section id="configurador" className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
         <div className="max-w-3xl">
           <div className="mb-10">
@@ -47,11 +47,10 @@ export default function Home() {
             <CommandPreview config={config} />
           </div>
         </div>
-      </section>
 
-      {/* Terminal preview -- same max-w container */}
-      <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
-        <TerminalPreview />
+        <div className="mt-16">
+          <TerminalPreview />
+        </div>
       </section>
 
       <footer className="border-t border-slate-100 py-6">

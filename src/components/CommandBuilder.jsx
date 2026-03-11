@@ -8,8 +8,8 @@ export default function CommandBuilder({ config, updateConfig }) {
     <div className="space-y-10">
       {/* STEP 1 */}
       <section>
-        <div className="flex items-baseline gap-3 mb-5">
-          <span className="text-xs font-mono text-slate-400">01</span>
+        <div className="flex items-center gap-3 mb-5">
+          <span className="w-7 h-7 rounded-full border-2 border-slate-200 flex items-center justify-center text-[11px] font-mono text-slate-400 shrink-0">01</span>
           <h3 className="text-base font-semibold text-slate-900">Repositorios y emails</h3>
         </div>
 
@@ -45,8 +45,8 @@ export default function CommandBuilder({ config, updateConfig }) {
 
       {/* STEP 2 */}
       <section>
-        <div className="flex items-baseline gap-3 mb-5">
-          <span className="text-xs font-mono text-slate-400">02</span>
+        <div className="flex items-center gap-3 mb-5">
+          <span className="w-7 h-7 rounded-full border-2 border-slate-200 flex items-center justify-center text-[11px] font-mono text-slate-400 shrink-0">02</span>
           <h3 className="text-base font-semibold text-slate-900">Destino</h3>
         </div>
 
@@ -81,8 +81,8 @@ export default function CommandBuilder({ config, updateConfig }) {
 
       {/* OPTIONS */}
       <section>
-        <div className="flex items-baseline gap-3 mb-5">
-          <span className="text-xs font-mono text-slate-400">--</span>
+        <div className="flex items-center gap-3 mb-5">
+          <span className="w-7 h-7 rounded-full border border-dashed border-slate-300 flex items-center justify-center text-[11px] font-mono text-slate-400 shrink-0">~</span>
           <div className="flex items-baseline gap-2">
             <h3 className="text-base font-semibold text-slate-900">Opciones</h3>
             <span className="text-xs text-slate-400">opcional</span>

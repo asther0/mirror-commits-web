@@ -29,7 +29,7 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24 px-4 sm:px-6">
+    <section className="pt-16 pb-10 sm:pt-20 sm:pb-12 lg:pt-24 lg:pb-14 px-4 sm:px-6">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col lg:grid lg:grid-cols-2 lg:gap-16 items-center">
           {/* Left: Text + CTA */}

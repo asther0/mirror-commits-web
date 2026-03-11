@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 
 function seededRandom(seed) {
   let t = (seed + 0x6d2b79f5) | 0;
@@ -76,13 +77,12 @@ function GraphGrid({ grid, variant = 'before' }) {
                 className={`w-[8px] h-[8px] sm:w-[10px] sm:h-[10px] rounded-[2px] cursor-pointer transition-all hover:ring-1 hover:ring-slate-400 hover:ring-offset-1 ${colors[cell.level]}`}
                 onMouseEnter={(e) => {
                   const rect = e.target.getBoundingClientRect();
-                  const parent = e.target.closest('.relative').getBoundingClientRect();
                   setTooltip({
                     text: cell.commits > 0
                       ? `${cell.commits} commit${cell.commits !== 1 ? 's' : ''} el ${cell.date}`
                       : `Sin commits el ${cell.date}`,
-                    x: rect.left - parent.left + rect.width / 2,
-                    y: rect.top - parent.top - 4,
+                    x: rect.left + rect.width / 2,
+                    y: rect.top - 4,
                   });
                 }}
                 onMouseLeave={() => setTooltip(null)}
@@ -92,9 +92,9 @@ function GraphGrid({ grid, variant = 'before' }) {
         ))}
       </div>
 
-      {tooltip && (
+      {tooltip && createPortal(
         <div
-          className="absolute z-10 px-2.5 py-1.5 bg-slate-800 text-white text-[10px] rounded-md whitespace-nowrap pointer-events-none shadow-lg"
+          className="fixed z-50 px-2.5 py-1.5 bg-slate-800 text-white text-[10px] rounded-md whitespace-nowrap pointer-events-none shadow-lg"
           style={{
             left: tooltip.x,
             top: tooltip.y,
@@ -102,7 +102,8 @@ function GraphGrid({ grid, variant = 'before' }) {
           }}
         >
           {tooltip.text}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

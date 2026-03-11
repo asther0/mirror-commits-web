@@ -109,8 +109,8 @@ export default function CommandPreview({ config }) {
     <div className="space-y-10">
       {/* STEP 3: Download */}
       <section>
-        <div className="flex items-baseline gap-3 mb-5">
-          <span className="text-xs font-mono text-slate-400">03</span>
+        <div className="flex items-center gap-3 mb-5">
+          <span className="w-7 h-7 rounded-full border-2 border-slate-200 flex items-center justify-center text-[11px] font-mono text-slate-400 shrink-0">03</span>
           <h3 className="text-base font-semibold text-slate-900">Descarga el script</h3>
         </div>
 
@@ -143,8 +143,8 @@ export default function CommandPreview({ config }) {
 
       {/* STEP 4: Execute */}
       <section>
-        <div className="flex items-baseline gap-3 mb-5">
-          <span className="text-xs font-mono text-slate-400">04</span>
+        <div className="flex items-center gap-3 mb-5">
+          <span className="w-7 h-7 rounded-full border-2 border-slate-200 flex items-center justify-center text-[11px] font-mono text-slate-400 shrink-0">04</span>
           <div>
             <h3 className="text-base font-semibold text-slate-900">Ejecuta en tu terminal</h3>
             <p className="text-xs text-slate-400 mt-0.5">En la carpeta donde guardaste mirror.sh</p>
