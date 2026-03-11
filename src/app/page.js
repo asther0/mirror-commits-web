@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-[#fafbfc]">
       <header className="bg-white/80 backdrop-blur-sm border-b border-slate-200 sticky top-0 z-50">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3 sm:py-4 flex items-center justify-between gap-4">
           <h1 className="text-lg font-bold text-slate-900">Mirror Commits</h1>
           <GitHubStars repo="asther0/mirror-commits-web" />
         </div>
@@ -35,8 +35,8 @@ export default function Home() {
       <HeroSection />
 
       {/* Configurator */}
-      <section id="configurador" className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
-        <div className="max-w-3xl">
+      <section id="configurador" className="max-w-7xl mx-auto px-4 sm:px-6 pb-14">
+        <div className="max-w-4xl">
           <div className="mb-8">
             <h2 className="text-lg sm:text-xl font-bold text-slate-900">Configura tu mirror</h2>
             <p className="text-sm text-slate-400 mt-1">Completa los pasos y ejecuta el comando en tu terminal</p>
@@ -48,13 +48,13 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="mt-16">
+        <div className="mt-12">
           <TerminalPreview />
         </div>
       </section>
 
       <footer className="border-t border-slate-100 py-6">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 text-center text-slate-400 text-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 text-center text-slate-400 text-xs">
           Inspirado en{' '}
           <a
             href="https://github.com/petarran/shomei"

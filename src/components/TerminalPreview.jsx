@@ -97,7 +97,7 @@ export default function TerminalPreview() {
   };
 
   return (
-    <div className="max-w-3xl">
+    <div className="max-w-4xl">
       <div className="mb-8">
         <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Preview del terminal</h2>
         <p className="text-sm text-slate-400 mt-1">
