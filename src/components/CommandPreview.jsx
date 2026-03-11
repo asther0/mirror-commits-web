@@ -130,24 +130,15 @@ export default function CommandPreview({ config }) {
       const response = await fetch('/scripts/mirror.sh');
       const scriptContent = await response.text();
 
-      const prompt = `Analiza este script bash que voy a ejecutar en mi computadora. Necesito que me ayudes a verificar su seguridad antes de ejecutarlo.
+      const prompt = `Analiza la seguridad de este script bash antes de ejecutarlo.
 
-El script se llama "mirror.sh" y su propósito es crear un repositorio espejo en GitHub que refleje las fechas de mis commits de trabajo (sin código, solo timestamps) para actualizar mi gráfico de contribuciones.
+Propósito: crear un repo espejo en GitHub con timestamps de commits (sin código) para actualizar el contribution graph.
 
-Revisa específicamente:
-1. Hay comandos peligrosos o destructivos?
-2. Se expone información sensible o código fuente?
-3. Los permisos y operaciones con git son seguras?
-4. Hay riesgos de seguridad al usar el GitHub token?
-5. El script hace lo que dice que hace?
-
-Aquí está el contenido completo del script:
+¿Es seguro ejecutarlo? ¿Hay comandos peligrosos o filtraciones de información?
 
 \`\`\`bash
 ${scriptContent}
-\`\`\`
-
-Dame un análisis detallado de seguridad y dime si es seguro ejecutarlo.`;
+\`\`\``;
 
       await navigator.clipboard.writeText(prompt);
       setCopiedForAI(true);
