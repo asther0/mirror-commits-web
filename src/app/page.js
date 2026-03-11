@@ -10,10 +10,10 @@ import TerminalPreview from '@/components/TerminalPreview';
 
 export default function Home() {
   const [config, setConfig] = useState({
-    emails: ['jhomar@empresa.pe'],
-    repos: ['https://github.com/asther0/mirror-commits-web'],
+    emails: [], // Empty by default - will be filled by RepoScanner
+    repos: [],
     mirrorName: 'work-mirror-2025',
-    githubUsername: 'asther0',
+    githubUsername: '',
     githubToken: '',
     autoPush: false,
     dryRun: false,
