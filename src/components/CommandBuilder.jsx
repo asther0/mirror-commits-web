@@ -93,13 +93,11 @@ export default function CommandBuilder({ config, updateConfig }) {
         </div>
       </section>
 
-      <hr className="border-slate-100" />
+      {/* OPCIONES - sin número de paso, es opcional */}
+      <div className="border border-dashed border-slate-200 rounded-lg p-4">
+        <p className="text-xs font-medium text-slate-400 uppercase tracking-wide mb-3">Opcional</p>
 
-      {/* PASO 3: OPCIONES */}
-      <section>
-        <StepHeader number={3} title="Opciones" subtitle="Opcional" />
-
-        <div className="space-y-4 mt-4">
+        <div className="space-y-4">
           <label className="flex items-start gap-3 text-sm text-slate-700 cursor-pointer">
             <input
               type="checkbox"
@@ -164,7 +162,7 @@ export default function CommandBuilder({ config, updateConfig }) {
             </div>
           </label>
         </div>
-      </section>
+      </div>
     </div>
   );
 }
