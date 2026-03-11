@@ -41,6 +41,11 @@ export default function Home() {
 
       {/* Single column configurator */}
       <section id="configurador" className="max-w-3xl mx-auto px-4 sm:px-6 pb-16">
+        <div className="mb-10">
+          <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Configura tu mirror</h2>
+          <p className="text-sm text-slate-400 mt-1">Completa los pasos y ejecuta el comando en tu terminal</p>
+        </div>
+
         <div className="space-y-10">
           <CommandBuilder config={config} updateConfig={updateConfig} />
           <CommandPreview config={config} />
