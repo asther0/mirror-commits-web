@@ -99,7 +99,7 @@ export default function TerminalPreview() {
   return (
     <div>
       <div className="mb-8">
-        <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Preview del terminal</h2>
+        <h2 className="text-lg font-bold text-slate-900">Preview del terminal</h2>
         <p className="text-sm text-slate-400 mt-1">
           Esto es lo que verás cuando ejecutes el comando
         </p>
@@ -164,7 +164,7 @@ export default function TerminalPreview() {
           </div>
         </div>
 
-        <div className="p-5 sm:p-6 min-h-[350px] max-h-[500px] overflow-y-auto">
+        <div className="p-5 sm:p-6 max-h-[calc(100vh-10rem)] overflow-y-auto">
           <div className="font-mono text-sm sm:text-base space-y-1">
             {outputLines.slice(0, currentLine).map((line, index) => (
               <div
