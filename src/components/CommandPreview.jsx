@@ -261,41 +261,20 @@ ${scriptContent}
 
             {showWindowsHelp && (
               <div className="mt-2 bg-white border border-blue-200 rounded-lg px-4 py-3 animate-fade-in">
-                <p className="text-xs text-slate-600 mb-3">
-                  <strong className="text-slate-800">mirror.sh</strong> es un script bash.
-                  PowerShell y CMD no pueden ejecutarlo.
+                <p className="text-xs text-slate-600">
+                  PowerShell/CMD no soportan bash. Abre <strong className="text-slate-800">Git Bash</strong> y ejecuta el comando ahí.
                 </p>
-
-                <div className="bg-blue-50 rounded-lg p-3 mb-3 border border-blue-100">
-                  <p className="text-xs font-semibold text-blue-900 mb-2">Cómo ejecutarlo:</p>
-                  <ol className="text-xs text-blue-800 space-y-1.5 ml-4 list-decimal">
-                    <li>
-                      Busca <strong>"Git Bash"</strong> en el menú inicio de Windows
-                    </li>
-                    <li>
-                      Navega a la carpeta donde descargaste <code className="bg-white px-1.5 py-0.5 rounded font-mono text-xs border border-blue-200">mirror.sh</code>
-                    </li>
-                    <li>
-                      Pega el comando de arriba
-                    </li>
-                  </ol>
-                </div>
-
-                <div className="text-xs text-slate-600">
-                  <p className="font-semibold text-slate-700 mb-1">¿No tienes Git Bash?</p>
-                  <p>
-                    Instala <strong>Git for Windows</strong> desde{' '}
-                    <a
-                      href="https://gitforwindows.org/"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline font-medium"
-                    >
-                      gitforwindows.org
-                    </a>{' '}
-                    (incluye Git Bash)
-                  </p>
-                </div>
+                <p className="text-xs text-slate-600 mt-2">
+                  ¿No lo tienes? Instala{' '}
+                  <a
+                    href="https://gitforwindows.org/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline font-medium"
+                  >
+                    Git for Windows
+                  </a>
+                </p>
               </div>
             )}
           </div>
