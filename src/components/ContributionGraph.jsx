@@ -1,9 +1,5 @@
 'use client';
 
-/**
- * Simple seeded PRNG (mulberry32) to ensure server and client
- * produce identical grids and avoid hydration mismatches.
- */
 function seededRandom(seed) {
   let t = (seed + 0x6d2b79f5) | 0;
   t = Math.imul(t ^ (t >>> 15), t | 1);
@@ -42,20 +38,8 @@ const BEFORE_GRID = generateGrid(0.08, 12345);
 const AFTER_GRID = generateGrid(0.65, 67890);
 
 const LEVEL_COLORS = {
-  before: [
-    'bg-slate-100',
-    'bg-green-200',
-    'bg-green-300',
-    'bg-green-400',
-    'bg-green-500',
-  ],
-  after: [
-    'bg-slate-100',
-    'bg-green-300',
-    'bg-green-400',
-    'bg-green-500',
-    'bg-green-600',
-  ],
+  before: ['bg-slate-100', 'bg-green-200', 'bg-green-300', 'bg-green-400', 'bg-green-500'],
+  after: ['bg-slate-100', 'bg-green-300', 'bg-green-400', 'bg-green-500', 'bg-green-600'],
 };
 
 function GraphGrid({ grid, variant = 'before' }) {
@@ -79,31 +63,23 @@ function GraphGrid({ grid, variant = 'before' }) {
 
 export default function ContributionGraph() {
   return (
-    <div className="grid sm:grid-cols-2 gap-6 sm:gap-8">
+    <div className="space-y-4">
       {/* Before */}
-      <div className="bg-white border border-slate-200 rounded-xl p-5 sm:p-6 text-center">
-        <p className="text-sm font-semibold text-slate-500 mb-3 sm:mb-4">
-          Tu GitHub ahora
-        </p>
-        <div className="flex justify-center overflow-x-auto pb-2">
+      <div className="bg-white border border-slate-200 rounded-xl p-5 text-center">
+        <p className="text-xs font-medium text-slate-400 mb-3">Tu GitHub ahora</p>
+        <div className="flex justify-center overflow-x-auto pb-1">
           <GraphGrid grid={BEFORE_GRID} variant="before" />
         </div>
-        <p className="text-xs text-slate-400 mt-2 sm:mt-3">
-          Casi vacío... pero si trabajaste todo el año
-        </p>
+        <p className="text-xs text-slate-400 mt-2">Casi vacío... pero trabajaste todo el año</p>
       </div>
 
       {/* After */}
-      <div className="bg-white border border-accent/30 rounded-xl p-5 sm:p-6 text-center shadow-sm shadow-accent/10">
-        <p className="text-sm font-semibold text-accent-dark mb-3 sm:mb-4">
-          Tu GitHub después
-        </p>
-        <div className="flex justify-center overflow-x-auto pb-2">
+      <div className="bg-white border border-slate-200 rounded-xl p-5 text-center">
+        <p className="text-xs font-medium text-slate-900 mb-3">Tu GitHub después</p>
+        <div className="flex justify-center overflow-x-auto pb-1">
           <GraphGrid grid={AFTER_GRID} variant="after" />
         </div>
-        <p className="text-xs text-slate-400 mt-2 sm:mt-3">
-          Ahora sí se ve tu actividad
-        </p>
+        <p className="text-xs text-slate-400 mt-2">Ahora sí se ve tu actividad</p>
       </div>
     </div>
   );
