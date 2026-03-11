@@ -37,8 +37,8 @@ export default function Home() {
       {/* Configurator */}
       <section id="configurador" className="max-w-6xl mx-auto px-4 sm:px-6 pb-20">
         <div className="max-w-3xl">
-          <div className="mb-10">
-            <h2 className="text-xl sm:text-2xl font-bold text-slate-900">Configura tu mirror</h2>
+          <div className="mb-8">
+            <h2 className="text-lg sm:text-xl font-bold text-slate-900">Configura tu mirror</h2>
             <p className="text-sm text-slate-400 mt-1">Completa los pasos y ejecuta el comando en tu terminal</p>
           </div>
 
