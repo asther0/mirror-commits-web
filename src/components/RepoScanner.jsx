@@ -130,9 +130,11 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
         className={`w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg text-base font-medium transition-all border ${
           scanning
             ? 'bg-slate-50 text-slate-500 border-slate-200 cursor-wait'
-            : repos && repos.length > 0
-            ? 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800 hover:border-slate-800'
-            : 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
+            : !repos || repos.length === 0
+            ? 'bg-slate-50 text-slate-400 border-slate-200 cursor-not-allowed'
+            : emailStats.length > 0
+            ? 'bg-white text-slate-700 border-slate-200 hover:border-slate-300 hover:bg-slate-50'
+            : 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800 hover:border-slate-800'
         }`}
       >
         {scanning ? (
