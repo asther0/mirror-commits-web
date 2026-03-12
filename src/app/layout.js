@@ -1,4 +1,5 @@
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata = {
   title: "Mirror Commits - Fix Your GitHub Contribution Graph",
@@ -10,6 +11,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="antialiased font-mono">
         {children}
+        <Analytics />
       </body>
     </html>
   );
