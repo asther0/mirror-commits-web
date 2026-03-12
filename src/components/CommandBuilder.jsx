@@ -4,13 +4,52 @@ import TagInput from '@/components/TagInput';
 import RepoScanner from '@/components/RepoScanner';
 
 export default function CommandBuilder({ config, updateConfig }) {
+  const hasRepos = config.repos && config.repos.length > 0;
+  const hasEmails = config.emails && (Array.isArray(config.emails) ? config.emails.length > 0 : String(config.emails).trim() !== '');
+  const hasUsername = config.githubUsername && config.githubUsername.trim() !== '';
+  const hasMirrorName = config.mirrorName && config.mirrorName.trim() !== '';
+
+  const step01Complete = hasRepos && hasEmails;
+  const step02Complete = hasUsername && hasMirrorName;
+  const step01Current = !step01Complete;
+  const step02Current = step01Complete && !step02Complete;
+
+  const stepBadge = (stepNum, complete, current) => {
+    if (complete) {
+      return (
+        <span className="w-8 h-8 rounded-full bg-green-100 border-2 border-green-300 flex items-center justify-center shrink-0" aria-label="Completado">
+          <svg className="w-4 h-4 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </span>
+      );
+    }
+    if (current) {
+      return (
+        <span className="w-8 h-8 rounded-full bg-slate-900 text-white border-2 border-slate-900 flex items-center justify-center text-xs font-mono font-semibold shrink-0 ring-2 ring-slate-900 ring-offset-2" aria-label="Paso actual">
+          {stepNum}
+        </span>
+      );
+    }
+    return (
+      <span className="w-8 h-8 rounded-full border-2 border-slate-200 flex items-center justify-center text-xs font-mono text-slate-400 shrink-0">
+        {stepNum}
+      </span>
+    );
+  };
+
   return (
     <div className="space-y-12">
       {/* STEP 1 */}
       <section>
         <div className="flex items-center gap-3 mb-6">
-          <span className="w-8 h-8 rounded-full border-2 border-slate-200 flex items-center justify-center text-xs font-mono text-slate-400 shrink-0">01</span>
-          <h3 className="text-lg font-semibold text-slate-900">Repositorios y emails</h3>
+          {stepBadge('01', step01Complete, step01Current)}
+          <div>
+            <h3 className={`text-lg font-semibold ${step01Complete ? 'text-green-800' : 'text-slate-900'}`}>
+              Repositorios y emails
+              {step01Current && <span className="ml-2 text-sm font-normal text-slate-500">— Paso actual</span>}
+            </h3>
+          </div>
         </div>
 
         <div className="space-y-6">
@@ -46,8 +85,13 @@ export default function CommandBuilder({ config, updateConfig }) {
       {/* STEP 2 */}
       <section>
         <div className="flex items-center gap-3 mb-6">
-          <span className="w-8 h-8 rounded-full border-2 border-slate-200 flex items-center justify-center text-xs font-mono text-slate-400 shrink-0">02</span>
-          <h3 className="text-lg font-semibold text-slate-900">Destino</h3>
+          {stepBadge('02', step02Complete, step02Current)}
+          <div>
+            <h3 className={`text-lg font-semibold ${step02Complete ? 'text-green-800' : 'text-slate-900'}`}>
+              Destino
+              {step02Current && <span className="ml-2 text-sm font-normal text-slate-500">— Paso actual</span>}
+            </h3>
+          </div>
         </div>
 
         <div className="grid sm:grid-cols-2 gap-5">
