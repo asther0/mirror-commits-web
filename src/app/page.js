@@ -5,7 +5,6 @@ import HeroSection from '@/components/HeroSection';
 import CommandBuilder from '@/components/CommandBuilder';
 import CommandPreview from '@/components/CommandPreview';
 import GitHubStars from '@/components/GitHubStars';
-import TerminalPreview from '@/components/TerminalPreview';
 
 export default function Home({ params, searchParams }) {
   // Unwrap Next.js 15 dynamic APIs
@@ -44,22 +43,9 @@ export default function Home({ params, searchParams }) {
           <p className="text-sm text-slate-400 mt-1">Completa los pasos y ejecuta el comando en tu terminal</p>
         </div>
 
-        <div className="lg:grid lg:grid-cols-[1fr,minmax(400px,38%)] lg:gap-12 lg:items-start">
-          {/* Left column: Form */}
-          <div className="space-y-10">
-            <CommandBuilder config={config} updateConfig={updateConfig} />
-            <CommandPreview config={config} />
-          </div>
-
-          {/* Right column: Terminal Preview (sticky sidebar on desktop) */}
-          <div className="hidden lg:block lg:sticky lg:top-24">
-            <TerminalPreview />
-          </div>
-        </div>
-
-        {/* Terminal Preview for mobile/tablet (below form) */}
-        <div className="lg:hidden mt-12">
-          <TerminalPreview />
+        <div className="space-y-10">
+          <CommandBuilder config={config} updateConfig={updateConfig} />
+          <CommandPreview config={config} />
         </div>
       </section>
 

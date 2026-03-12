@@ -2,6 +2,19 @@
 
 import { useState } from 'react';
 
+function formatCommitDateRange(earliest, latest) {
+  if (!earliest && !latest) return null;
+  const fmt = (iso) => {
+    const d = new Date(iso);
+    return d.toLocaleDateString('es', { day: 'numeric', month: 'short', year: 'numeric' });
+  };
+  if (earliest && latest && earliest.slice(0, 10) === latest.slice(0, 10)) {
+    return fmt(latest);
+  }
+  if (earliest && latest) return `${fmt(earliest)} – ${fmt(latest)}`;
+  return latest ? fmt(latest) : earliest ? fmt(earliest) : null;
+}
+
 export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
   const [scanning, setScanning] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
@@ -48,13 +61,18 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
 
             commits.forEach((commit) => {
               const email = commit.commit?.author?.email;
+              const dateStr = commit.commit?.author?.date;
               if (email) {
                 if (!emailMap.has(email)) {
-                  emailMap.set(email, { count: 0, repos: new Set() });
+                  emailMap.set(email, { count: 0, repos: new Set(), earliestDate: null, latestDate: null });
                 }
                 const stats = emailMap.get(email);
                 stats.count++;
                 stats.repos.add(`${repoInfo.owner}/${repoInfo.repo}`);
+                if (dateStr) {
+                  if (!stats.earliestDate || dateStr < stats.earliestDate) stats.earliestDate = dateStr;
+                  if (!stats.latestDate || dateStr > stats.latestDate) stats.latestDate = dateStr;
+                }
               }
             });
 
@@ -70,6 +88,8 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
         email,
         count: stats.count,
         repos: Array.from(stats.repos),
+        earliestDate: stats.earliestDate || null,
+        latestDate: stats.latestDate || null,
       }));
 
       emailList.sort((a, b) => b.count - a.count);
@@ -185,6 +205,7 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
               <div className="divide-y divide-slate-100">
                 {emailStats.map((stat) => {
                   const isSelected = selectedEmails.includes(stat.email);
+                  const dateRangeStr = formatCommitDateRange(stat.earliestDate, stat.latestDate);
 
                   return (
                     <label
@@ -201,10 +222,18 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
                       />
                       <div className="flex-1 min-w-0">
                         <span className="text-base font-mono text-slate-800 break-all">{stat.email}</span>
+                        <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-0 text-sm text-slate-500">
+                          <span className="tabular-nums">
+                            {stat.count} {stat.count === 1 ? 'commit' : 'commits'}
+                          </span>
+                          {dateRangeStr && (
+                            <>
+                              <span className="text-slate-300">·</span>
+                              <span>{dateRangeStr}</span>
+                            </>
+                          )}
+                        </div>
                       </div>
-                      <span className="text-sm text-slate-400 shrink-0 tabular-nums">
-                        {stat.count}
-                      </span>
                     </label>
                   );
                 })}
