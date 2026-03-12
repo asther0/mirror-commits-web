@@ -1,13 +1,16 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, use } from 'react';
 import HeroSection from '@/components/HeroSection';
 import CommandBuilder from '@/components/CommandBuilder';
 import CommandPreview from '@/components/CommandPreview';
 import GitHubStars from '@/components/GitHubStars';
 import TerminalPreview from '@/components/TerminalPreview';
 
-export default function Home() {
+export default function Home({ params, searchParams }) {
+  // Unwrap Next.js 15 dynamic APIs
+  if (params) use(params);
+  if (searchParams) use(searchParams);
   const [config, setConfig] = useState({
     emails: [],
     repos: [],
