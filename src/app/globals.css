@@ -1,6 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
+@source "../components/**/*.{js,jsx,ts,tsx}";
+@source "./**/*.{js,jsx,ts,tsx,mdx}";
+
 @theme {
   --color-slate-50: #f8fafc;
   --color-slate-100: #f1f5f9;

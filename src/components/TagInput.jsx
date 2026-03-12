@@ -120,7 +120,11 @@ export default function TagInput({
         <button
           type="button"
           onClick={addTag}
-          className="px-5 py-3 bg-slate-900 text-white text-base font-medium rounded-lg hover:bg-slate-800 transition-colors shrink-0"
+          className={`px-5 py-3 text-base font-medium rounded-lg transition-colors shrink-0 ${
+            inputValue.trim().length > 0
+              ? 'bg-slate-900 text-white hover:bg-slate-800'
+              : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 hover:border-slate-400'
+          }`}
         >
           Agregar
         </button>
