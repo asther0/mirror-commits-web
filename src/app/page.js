@@ -1,12 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, use } from 'react';
 import HeroSection from '@/components/HeroSection';
 import CommandBuilder from '@/components/CommandBuilder';
 import CommandPreview from '@/components/CommandPreview';
 import GitHubStars from '@/components/GitHubStars';
 
-export default function Home() {
+export default function Home({ params, searchParams }) {
+  // Unwrap Next.js 15 dynamic APIs
+  if (params) use(params);
+  if (searchParams) use(searchParams);
   const [config, setConfig] = useState({
     emails: [],
     repos: [],
@@ -40,11 +43,9 @@ export default function Home() {
           <p className="text-sm text-slate-400 mt-1">Completa los pasos y ejecuta el comando en tu terminal</p>
         </div>
 
-        <div className="max-w-3xl">
-          <div className="space-y-10">
-            <CommandBuilder config={config} updateConfig={updateConfig} />
-            <CommandPreview config={config} />
-          </div>
+        <div className="space-y-10">
+          <CommandBuilder config={config} updateConfig={updateConfig} />
+          <CommandPreview config={config} />
         </div>
       </section>
 
