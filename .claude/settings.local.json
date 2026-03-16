@@ -4,7 +4,8 @@
       "Bash(bun:*)",
       "Bash(npm install:*)",
       "Bash(git add:*)",
-      "Bash(git commit -m \"$\\(cat <<''EOF''\nchore: migrate from npm to bun\n\n- Remove package-lock.json\n- Install dependencies with bun\n- Generate bun.lockb\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")"
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nchore: migrate from npm to bun\n\n- Remove package-lock.json\n- Install dependencies with bun\n- Generate bun.lockb\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git commit:*)"
     ]
   }
 }

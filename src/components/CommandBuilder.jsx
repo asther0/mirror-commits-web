@@ -23,34 +23,7 @@ export default function CommandBuilder({ config, updateConfig }) {
               onChange={(newRepos) => updateConfig('repos', newRepos)}
               placeholder="https://github.com/usuario/repo"
               type="url"
-              helpText="URLs de GitHub (públicas o privadas con token)"
             />
-          </div>
-
-          <div>
-            <label className="block text-base font-medium text-slate-700 mb-2">
-              Token de GitHub <span className="text-sm font-normal text-slate-400">(opcional, solo si tienes repos privados)</span>
-            </label>
-            <div className="flex gap-2">
-              <input
-                type="password"
-                value={config.scanToken || ''}
-                onChange={(e) => updateConfig('scanToken', e.target.value)}
-                placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
-                className="flex-1 bg-white border border-slate-200 rounded-lg px-4 py-3 text-base text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none transition-colors"
-              />
-              <a
-                href="https://github.com/settings/tokens/new?scopes=repo&description=Mirror%20Commits%20Scanner"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="shrink-0 inline-flex items-center px-4 py-3 text-sm text-slate-500 hover:text-slate-700 border border-slate-200 rounded-lg hover:border-slate-300 transition-colors"
-              >
-                Crear token
-              </a>
-            </div>
-            <p className="text-xs text-slate-400 mt-1.5">
-              Necesario para escanear repos privados. El token no se guarda en ningún servidor.
-            </p>
           </div>
 
           <div>
@@ -65,7 +38,40 @@ export default function CommandBuilder({ config, updateConfig }) {
               selectedEmails={config.emails || []}
               onEmailsChange={(newEmails) => updateConfig('emails', newEmails)}
               scanToken={config.scanToken}
+              onTokenRequired={() => updateConfig('needsToken', true)}
             />
+
+            {config.needsToken && (
+              <div className="mt-4 p-4 border border-amber-200 bg-amber-50 rounded-lg">
+                <div className="flex items-start gap-3">
+                  <svg className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                  <div className="flex-1 space-y-3">
+                    <p className="text-sm text-amber-800">
+                      Algunos repositorios son privados. Necesitas un token de GitHub.
+                    </p>
+                    <div className="flex gap-2">
+                      <input
+                        type="password"
+                        value={config.scanToken || ''}
+                        onChange={(e) => updateConfig('scanToken', e.target.value)}
+                        placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                        className="flex-1 bg-white border border-amber-300 rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 outline-none"
+                      />
+                      <a
+                        href="https://github.com/settings/tokens/new?scopes=repo&description=Mirror%20Commits%20Scanner"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="shrink-0 inline-flex items-center px-3 py-2 text-sm text-amber-700 hover:text-amber-900 border border-amber-300 bg-white rounded-lg hover:bg-amber-50 transition-colors"
+                      >
+                        Crear
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>

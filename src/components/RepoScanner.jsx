@@ -15,11 +15,12 @@ function formatCommitDateRange(earliest, latest) {
   return latest ? fmt(latest) : earliest ? fmt(earliest) : null;
 }
 
-export default function RepoScanner({ repos, selectedEmails, onEmailsChange, scanToken }) {
+export default function RepoScanner({ repos, selectedEmails, onEmailsChange, scanToken, onTokenRequired }) {
   const [scanning, setScanning] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
   const [error, setError] = useState('');
   const [expanded, setExpanded] = useState(true);
+  const [hasPrivateRepos, setHasPrivateRepos] = useState(false);
 
   const extractRepoInfo = (url) => {
     const match = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
@@ -36,8 +37,10 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange, sca
     setScanning(true);
     setError('');
     setEmailStats([]);
+    setHasPrivateRepos(false);
 
     const emailMap = new Map();
+    let foundPrivateRepo = false;
 
     try {
       for (const repoUrl of repos) {
@@ -61,8 +64,8 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange, sca
             );
 
             if (!response.ok) {
-              if (response.status === 401 || response.status === 404) {
-                console.error(`Error ${response.status} for ${repoUrl}: May be private or token invalid`);
+              if ((response.status === 401 || response.status === 404) && !scanToken) {
+                foundPrivateRepo = true;
               }
               break;
             }
@@ -105,6 +108,11 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange, sca
 
       emailList.sort((a, b) => b.count - a.count);
       setEmailStats(emailList);
+
+      if (foundPrivateRepo && onTokenRequired) {
+        setHasPrivateRepos(true);
+        onTokenRequired();
+      }
     } catch (err) {
       setError('Error al escanear repositorios');
       console.error(err);

@@ -17,6 +17,7 @@ export default function Home({ params, searchParams }) {
     githubUsername: '',
     githubToken: '',
     scanToken: '',
+    needsToken: false,
     autoPush: false,
     dryRun: false,
     private: false,
