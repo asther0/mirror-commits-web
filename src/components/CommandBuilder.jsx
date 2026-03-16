@@ -88,25 +88,24 @@ export default function CommandBuilder({ config, updateConfig }) {
                   </svg>
                   <div className="flex-1 space-y-3">
                     <p className="text-sm text-amber-800">
-                      Algunos repositorios son privados. Necesitas un token de GitHub.
-                    </p>
-                    <div className="flex gap-2">
-                      <input
-                        type="password"
-                        value={config.scanToken || ''}
-                        onChange={(e) => updateConfig('scanToken', e.target.value)}
-                        placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
-                        className="flex-1 bg-white border border-amber-300 rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 outline-none"
-                      />
+                      Algunos repositorios son privados.{' '}
                       <a
                         href="https://github.com/settings/tokens/new?scopes=repo&description=Mirror%20Commits%20Scanner"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="shrink-0 inline-flex items-center px-3 py-2 text-sm text-amber-700 hover:text-amber-900 border border-amber-300 bg-white rounded-lg hover:bg-amber-50 transition-colors"
+                        className="underline hover:text-amber-900 font-medium"
                       >
-                        Crear
+                        Crea un token de GitHub
                       </a>
-                    </div>
+                      {' '}para continuar.
+                    </p>
+                    <input
+                      type="password"
+                      value={config.scanToken || ''}
+                      onChange={(e) => updateConfig('scanToken', e.target.value)}
+                      placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                      className="w-full bg-white border border-amber-300 rounded-lg px-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:border-amber-400 focus:ring-1 focus:ring-amber-400 outline-none"
+                    />
                   </div>
                 </div>
               </div>
