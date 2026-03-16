@@ -16,6 +16,7 @@ export default function Home({ params, searchParams }) {
     mirrorName: 'work-mirror-2025',
     githubUsername: '',
     githubToken: '',
+    scanToken: '',
     autoPush: false,
     dryRun: false,
     private: false,

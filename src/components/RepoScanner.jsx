@@ -15,7 +15,7 @@ function formatCommitDateRange(earliest, latest) {
   return latest ? fmt(latest) : earliest ? fmt(earliest) : null;
 }
 
-export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
+export default function RepoScanner({ repos, selectedEmails, onEmailsChange, scanToken }) {
   const [scanning, setScanning] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
   const [error, setError] = useState('');
@@ -50,11 +50,22 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
           let hasMore = true;
 
           while (hasMore && page <= maxPages) {
+            const headers = {};
+            if (scanToken) {
+              headers['Authorization'] = `Bearer ${scanToken}`;
+            }
+
             const response = await fetch(
-              `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/commits?per_page=100&page=${page}`
+              `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/commits?per_page=100&page=${page}`,
+              { headers }
             );
 
-            if (!response.ok) break;
+            if (!response.ok) {
+              if (response.status === 401 || response.status === 404) {
+                console.error(`Error ${response.status} for ${repoUrl}: May be private or token invalid`);
+              }
+              break;
+            }
 
             const commits = await response.json();
             if (commits.length === 0) break;

@@ -29,6 +29,32 @@ export default function CommandBuilder({ config, updateConfig }) {
 
           <div>
             <label className="block text-base font-medium text-slate-700 mb-2">
+              Token de GitHub <span className="text-sm font-normal text-slate-400">(opcional, solo si tienes repos privados)</span>
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="password"
+                value={config.scanToken || ''}
+                onChange={(e) => updateConfig('scanToken', e.target.value)}
+                placeholder="ghp_xxxxxxxxxxxxxxxxxxxx"
+                className="flex-1 bg-white border border-slate-200 rounded-lg px-4 py-3 text-base text-slate-900 placeholder-slate-400 focus:border-slate-400 focus:ring-1 focus:ring-slate-400 outline-none transition-colors"
+              />
+              <a
+                href="https://github.com/settings/tokens/new?scopes=repo&description=Mirror%20Commits%20Scanner"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 inline-flex items-center px-4 py-3 text-sm text-slate-500 hover:text-slate-700 border border-slate-200 rounded-lg hover:border-slate-300 transition-colors"
+              >
+                Crear token
+              </a>
+            </div>
+            <p className="text-xs text-slate-400 mt-1.5">
+              Necesario para escanear repos privados. El token no se guarda en ningún servidor.
+            </p>
+          </div>
+
+          <div>
+            <label className="block text-base font-medium text-slate-700 mb-2">
               Emails de tus commits <span className="text-slate-400">*</span>
             </label>
             <p className="text-sm text-slate-400 mb-3">
@@ -38,6 +64,7 @@ export default function CommandBuilder({ config, updateConfig }) {
               repos={config.repos}
               selectedEmails={config.emails || []}
               onEmailsChange={(newEmails) => updateConfig('emails', newEmails)}
+              scanToken={config.scanToken}
             />
           </div>
         </div>
