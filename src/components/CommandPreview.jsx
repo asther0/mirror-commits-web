@@ -203,6 +203,64 @@ export default function CommandPreview({ config }) {
           Todo corre en tu terminal. No se envía nada a ningún servidor.
         </p>
       </section>
+
+      {/* STEP 5: Manual Push (only if not auto-push) */}
+      {!config.autoPush && hasUsername && hasMirrorName && (
+        <section>
+          <div className="flex items-center gap-3 mb-6">
+            <span className="w-8 h-8 rounded-full border-2 border-slate-200 flex items-center justify-center text-xs font-mono text-slate-400 shrink-0">05</span>
+            <div>
+              <h3 className="text-lg font-semibold text-slate-900">Sube el repo a GitHub</h3>
+              <p className="text-sm text-slate-400 mt-0.5">Después de ejecutar el script</p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <p className="text-sm text-slate-600">
+              Primero, crea un nuevo repositorio en GitHub llamado <code className="px-2 py-1 bg-slate-100 rounded text-slate-800 font-mono text-sm">{config.mirrorName}</code>
+            </p>
+
+            <a
+              href={`https://github.com/new?name=${config.mirrorName}&description=Mirror+of+work+commits`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-lg text-base font-medium transition-colors"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 16 16">
+                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
+              </svg>
+              Crear repositorio en GitHub
+            </a>
+
+            <p className="text-sm text-slate-600">
+              Luego, ejecuta estos comandos en tu terminal:
+            </p>
+
+            <div className="bg-slate-900 rounded-xl overflow-hidden">
+              <div className="p-5 sm:p-6">
+                <pre className="text-base text-slate-300 font-mono leading-relaxed whitespace-pre-wrap break-all">
+                  <code>{`cd "${config.mirrorName}"
+git remote add origin https://github.com/${config.githubUsername}/${config.mirrorName}.git
+git branch -M main
+git push -u origin main`}</code>
+                </pre>
+              </div>
+            </div>
+
+            <p className="text-sm text-slate-400">
+              Una vez subido, verás tus commits en{' '}
+              <a
+                href={`https://github.com/${config.githubUsername}/${config.mirrorName}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-slate-600 hover:underline"
+              >
+                github.com/{config.githubUsername}/{config.mirrorName}
+              </a>
+            </p>
+          </div>
+        </section>
+      )}
     </div>
   );
 }
