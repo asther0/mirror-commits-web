@@ -15,11 +15,12 @@ function formatCommitDateRange(earliest, latest) {
   return latest ? fmt(latest) : earliest ? fmt(earliest) : null;
 }
 
-export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
+export default function RepoScanner({ repos, selectedEmails, onEmailsChange, scanToken, onTokenRequired }) {
   const [scanning, setScanning] = useState(false);
   const [emailStats, setEmailStats] = useState([]);
   const [error, setError] = useState('');
   const [expanded, setExpanded] = useState(true);
+  const [hasPrivateRepos, setHasPrivateRepos] = useState(false);
 
   const extractRepoInfo = (url) => {
     const match = url.match(/github\.com\/([^\/]+)\/([^\/]+)/);
@@ -36,8 +37,10 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
     setScanning(true);
     setError('');
     setEmailStats([]);
+    setHasPrivateRepos(false);
 
     const emailMap = new Map();
+    let foundPrivateRepo = false;
 
     try {
       for (const repoUrl of repos) {
@@ -50,11 +53,22 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
           let hasMore = true;
 
           while (hasMore && page <= maxPages) {
+            const headers = {};
+            if (scanToken) {
+              headers['Authorization'] = `Bearer ${scanToken}`;
+            }
+
             const response = await fetch(
-              `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/commits?per_page=100&page=${page}`
+              `https://api.github.com/repos/${repoInfo.owner}/${repoInfo.repo}/commits?per_page=100&page=${page}`,
+              { headers }
             );
 
-            if (!response.ok) break;
+            if (!response.ok) {
+              if ((response.status === 401 || response.status === 404) && !scanToken) {
+                foundPrivateRepo = true;
+              }
+              break;
+            }
 
             const commits = await response.json();
             if (commits.length === 0) break;
@@ -94,6 +108,11 @@ export default function RepoScanner({ repos, selectedEmails, onEmailsChange }) {
 
       emailList.sort((a, b) => b.count - a.count);
       setEmailStats(emailList);
+
+      if (foundPrivateRepo && onTokenRequired) {
+        setHasPrivateRepos(true);
+        onTokenRequired();
+      }
     } catch (err) {
       setError('Error al escanear repositorios');
       console.error(err);
